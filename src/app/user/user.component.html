@@ -1,0 +1,72 @@
+<div class="container" [ngSwitch]="isAuthenticated()">
+    <div *ngSwitchCase="true">
+        <h2>Пользователи</h2>
+        <p></p>
+        <div>
+            <div class="container" style="min-height: 400px">
+                <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="true">
+                    <div *ngFor="let user of users">
+                        <div>
+                            <!--<a [routerLink]="['/users',user.id]">-->
+                            <a (click)="openModalDialog(user.id)">
+                                <span *ngIf="user.fio !== 'null'">{{user.fio}}</span>
+                                <span *ngIf="user.email !== 'null'">{{user.email}}</span>
+                                <span *ngIf="user.phone !== 'null'">{{user.phone}}</span>
+                            </a>
+
+                            <div class="float-right">
+                                <!-- <span *ngIf="user.status === 'Активен'" class="hashteg badge badge-success">{{user.status}}</span>
+                <span *ngIf="user.status === 'Удален'" class="hashteg badge badge-danger">{{user.status}}</span>
+                <span *ngIf="user.status === 'Заблокирован'" class="hashteg badge badge-warning">{{user.status}}</span>
+                  <span *ngIf="user.status === 'Сброс учетных данных'" class="hashteg badge badge-secondary">{{user.status}}</span>-->
+
+                                <span>
+                    <button [disabled]="user.status === 'Заблокирован'" class="btn btn-warning btn-sm hashteg" (click)= "blockUser([user.id])">Блокир.</button>
+                    <button [disabled]="user.status === 'Заблокирован'||user.status === 'Сброс учетных данных'" class="btn btn-secondary btn-sm hashteg" (click)= "resetPassword([user.id])">Сбросить пароль</button>
+                </span>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <!-- modal -->
+            <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':userDetail}">
+                <!-- modal-dialog -->
+                <div class="modal-dialog" role="document">
+                    <!-- modal-content -->
+                    <div class="modal-content">
+                        <!-- modal-header -->
+                        <div class="modal-header">
+                            <h3>
+                                ФИО: {{u.fio||"Не указано"}}
+                            </h3>
+                            <button type="button" class="close" aria-label="Close" (click)="closeModalDialog()"><span aria-hidden="true">&times;</span></button>
+                            <!-- <h4 class="modal-title">Login</h4> -->
+                        </div>
+
+                        <!-- modal-body -->
+                        <div class="modal-body">
+                            <label>email</label>
+                            <span class="float-right"> {{u.email||"Не указано"}}</span>
+                            <p></p>
+                            <label>Телефон</label>
+                            <span class="float-right"> {{u.phone||"Не указано"}}</span>
+                            <p></p>
+                            <label>Статус</label>
+                            <span class="float-right"> {{u.status}}</span>
+                        </div>
+
+                        <!-- modal-footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" [routerLink]="['/users', u.id, 'operations']">Операции</button>
+                            <button type="button" class="btn btn-default" [routerLink]="['/users', u.id, 'accounts']">Лицевые счета</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

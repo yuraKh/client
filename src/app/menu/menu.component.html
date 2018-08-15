@@ -1,0 +1,22 @@
+<div class="container" [ngSwitch]="isAuthenticated()">
+<ul class="menu" *ngSwitchCase="true">
+    <div class="nav-item">
+    <a class="nav-link" [routerLink]="['/setting']">Основные параметры</a>
+    </div>
+    <div class="nav-item">
+    <a class="nav-link" [routerLink]="['/users']">Пользователи</a>
+    </div>
+    <div class="nav-item">
+        <a class="nav-link" [routerLink]="['/']">Push-уведомления</a>
+    </div>
+    <div class="nav-item">
+        <a class="nav-link" [routerLink]="['/']">Новости</a>
+    </div>
+    <div class="nav-item">
+        <a class="nav-link" [routerLink]="['/']">Логи</a>
+    </div>
+    <div class="nav-item">
+        <a class="nav-link" [routerLink]="['/admins']">Администраторы</a>
+    </div>
+</ul>
+</div>

@@ -1,0 +1,55 @@
+<div class="container" [ngSwitch]="isAuthenticated()">
+    <div *ngSwitchCase="true">
+<h2>Основные параметры</h2>
+
+<select [(ngModel)]="selectedOption" name="mode">
+    <option [ngValue]="undefined" disabled  selected> Режим работы </option>
+    <option *ngFor="let o of options">
+        {{o.name}}
+    </option>
+</select>
+<button [disabled]="!selectedOption" type="button"  class="btn btn-primary btn-sm marg" (click)="setMode()">Сохранить</button>
+<p></p>
+<hr>
+<h3>Ограничение по сумам</h3>
+
+<div class="row">
+<label class="col-sm-5">макс. значение общей сумы платежа</label>
+<input [(ngModel)]="maxLimit" type="number" class="marg" class="col-sm-2">
+<button [disabled]="!maxLimit" type="button" class="btn btn-primary btn-sm marg" (click)="setMaxLimit()">Сохранить</button>
+</div>
+<p></p>
+
+<div class="row">
+    <label class="col-sm-5">мин. значение общей сумы платежа</label>
+    <input [(ngModel)]="minLimit" type="number" class="marg" class="col-sm-2">
+    <button [disabled]="!minLimit" type="button" class="btn btn-primary btn-sm marg" (click)="setMinLimit()">Сохранить</button>
+</div>
+<p></p>
+
+<div class="row">
+    <label class="col-sm-5">мин. сума платежа с банковской карты</label>
+    <input [(ngModel)]="cardLimit" type="number" class="marg" class="col-sm-2">
+    <button [disabled]="!cardLimit" type="button" class="btn btn-primary btn-sm marg" (click)="setCardLimit()">Сохранить</button>
+</div>
+
+<p></p>
+<hr>
+<h3>Процентные ставки</h3>
+        <p></p>
+<div>
+    <select [(ngModel)]="selectedService" name="service">
+        <option [ngValue]="undefined" disabled  selected> Название услуги </option>
+        <option *ngFor="let s of serviceList">
+            {{s.name}}
+        </option>
+    </select>
+</div>
+<p></p>
+<div class="row">
+    <label class="col-sm-5">Услуга "{{selectedService}}", процентная ставка</label>
+    <input [(ngModel)]="interestRate" type="number" class="marg" class="col-sm-2">
+    <button [disabled]="!interestRate||!selectedService" type="button" class="btn btn-primary btn-sm marg" (click)="saveInterestRate()">Сохранить</button>
+</div>
+</div>
+</div>

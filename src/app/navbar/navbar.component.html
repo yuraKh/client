@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="navbar mr-auto">
+        <div class="nav-item" >
+            <a class="navbar-brand" [routerLink]="['/']">MkClient</a>
+        </div>
+    </div>
+    <!--<div [ngSwitch]="isAuthenticated()">
+        <div class="nav-item" *ngSwitchCase="true">
+            <a class="nav-link" href="/swagger-ui.html">Swagger</a>
+        </div>
+    </div>-->
+    <div class="navbar mr-5" [ngSwitch]="isAuthenticated()">
+        <div class="nav-item" *ngSwitchCase="false">
+            <a class="nav-link" [routerLink]="['/']">Войти</a>
+        </div>
+       <!-- <div class="nav-item" *ngSwitchCase="false">
+            <a class="nav-link" [routerLink]="['/signup']">Sign up</a>
+        </div>-->
+        <div class="nav-item" *ngSwitchCase="true">
+            <a class="nav-link" (click)="logout()" [routerLink]="['/']">Выйти</a>
+        </div>
+    </div>
+</nav>

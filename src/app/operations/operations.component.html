@@ -1,0 +1,28 @@
+<div [ngSwitch]="isAuthenticated()">
+<div *ngSwitchCase="true" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollOperations()" [scrollWindow]="false"
+     style="height: 400px; overflow-y: scroll;">
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Название</th>
+      <th scope="col">Дата</th>
+      <th scope="col">Сума</th>
+      <th scope="col">Бонус</th>
+      <th scope="col">Статус платежа</th>
+      <th scope="col">Статус</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let o of operations">
+      <td>{{o.payment_system}}</td>
+      <td>{{o.createDate}}</td>
+      <td>{{o.sum_total}}</td>
+      <td>{{o.sum_bonus}}</td>
+      <td>{{o.payment_status}}</td>
+      <td>{{o.status}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</div>

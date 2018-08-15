@@ -1,0 +1,22 @@
+<div [ngSwitch]="isAuthenticated()">
+  <div *ngSwitchCase="true" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollOperations()" [scrollWindow]="false"
+       style="height: 400px; overflow-y: scroll;">
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Название</th>
+        <th scope="col">Аккаунт</th>
+        <th scope="col">Дата</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let o of accounts">
+        <td>{{o.name}}</td>
+        <td>{{o.account}}</td>
+        <td>{{o.date}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

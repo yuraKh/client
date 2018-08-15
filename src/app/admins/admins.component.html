@@ -1,0 +1,51 @@
+<div class="container" [ngSwitch]="isAuthenticated()">
+<div *ngSwitchCase="true">
+    <div class="form-group " >
+        <h2>Администраторы</h2>
+        <p></p>
+        <button [hidden]="isShowing" type="button" (click)="isShowing = !isShowing" class="postform btn btn-primary btn-sm">Создать</button>
+
+
+        <form [formGroup]="adminForm" (ngSubmit)="saveAdmin()" [hidden]="!isShowing" class="postform col-sm-5">
+            <div class="form-group">
+                <input placeholder="email" type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required">Email is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input placeholder="password" type="text" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-danger btn-sm" (click)="clearForm()">Отмена</button>
+                <button [disabled]="loading" class="btn btn-success btn-sm float-right">Создать</button>
+                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                />
+            </div>
+            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+        </form>
+        <div>
+            <div class="container" style="min-height: 300px">
+                <div  infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="true">
+                    <div *ngFor="let admin of admins">
+                        <span>{{admin.email}}</span>
+                        <div class="float-right">
+                            <span *ngIf="admin.status === 'Активен'" class="hashteg badge badge-success">{{admin.status}}</span>
+                            <span *ngIf="admin.status === 'Удален'" class="hashteg badge badge-danger">{{admin.status}}</span>
+                            <span *ngIf="admin.status === 'Заблокирован'" class="hashteg badge badge-warning">{{admin.status}}</span>
+                            <span>
+                            <button [disabled]="admin.status === 'Удален'" class="btn btn-danger btn-sm hashteg" (click)= "deleteAdmin([admin.id])">Удалить</button>
+                            <button [disabled]="admin.status === 'Удален'||admin.status === 'Заблокирован'" class="btn btn-warning btn-sm hashteg" (click)= "blockAdmin([admin.id])">Блокир.</button>
+                            </span>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
