@@ -8,10 +8,10 @@ import {NewsService} from "./news.service";
 })
 export class NewsComponent implements OnInit {
 
-  private title: string;
-  private file: File;
-  private success = false;
-  private message: string;
+   title: string;
+   file: File;
+   success = false;
+   message: string;
 
   constructor(private newsService: NewsService) {
   }

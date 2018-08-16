@@ -13,11 +13,11 @@ import {SettingService} from "../setting/setting.service";
 })
 export class PushNotificationComponent implements OnInit {
 
-  private title: string;
-  private message: string;
-  private mes: Message = new Message();
-  private saldo: number;
-  private servId: number;
+   title: string;
+   message: string;
+   mes: Message = new Message();
+   saldo: number;
+   servId: number;
   successMes: string;
   selectedOption: string;
   success = false;
