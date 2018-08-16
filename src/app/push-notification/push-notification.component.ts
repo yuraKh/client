@@ -108,7 +108,8 @@ export class PushNotificationComponent implements OnInit {
           this.success = true;
           this.successMes = data.message;
           this.userId = null;
-
+          this.title = null;
+          this.message = null;
         },
         error => {
           console.log(error.error.message);
