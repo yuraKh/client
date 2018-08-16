@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {NotificationService} from "./notification.service";
-import {Message} from "./message.model";
-import {UserService} from "../user/user.service";
-import {User} from "../user/user.model";
-import {Service} from "../setting/service.model";
-import {SettingService} from "../setting/setting.service";
+import {NotificationService} from './notification.service';
+import {Message} from './message.model';
+import {UserService} from '../user/user.service';
+import {User} from '../user/user.model';
+import {Service} from '../setting/service.model';
+import {SettingService} from '../setting/setting.service';
 
 @Component({
   selector: 'app-push-notification',
@@ -23,18 +23,18 @@ export class PushNotificationComponent implements OnInit {
   success = false;
   hideSelectUser = true;
   options = [
-    {name: "Всем пользователям", value: 1},
-    {name: "Пользователю по ID", value: 2}
+    {name: 'Всем пользователям', value: 1},
+    {name: 'Пользователю по ID', value: 2}
   ];
   error = false;
   errors: string;
   users: User[] = [];
   userId: number;
-  page: number = 0;
+  page = 0;
 
   serviceList: Service[] = [];
-
-  userDetail='none'; //default Variable
+  selectedService: string;
+  userDetail = 'none';
 
   constructor(private notificationService: NotificationService,
               private userService: UserService,
@@ -47,11 +47,11 @@ export class PushNotificationComponent implements OnInit {
     });
   }
 
-  onChange(event: any){
-    if(event == this.options[1].name){
+  onChange(event: any) {
+    if (event === this.options[1].name) {
       this.hideSelectUser = false;
 
-    }else {
+    } else {
       this.userId = 1;
       this.hideSelectUser = true;
     }
@@ -77,7 +77,7 @@ export class PushNotificationComponent implements OnInit {
     console.log(this.servId);
   }
 
-  sendSaldo(){
+  sendSaldo() {
      this.notificationService.sendrArears(this.servId, this.saldo).subscribe(data => {
       this.saldo = 0;
       this.servId = 0;
@@ -99,10 +99,10 @@ export class PushNotificationComponent implements OnInit {
   }
 
   send() {
-    const o = this.options.find(x => x.name == this.selectedOption);
+    const o = this.options.find(x => x.name === this.selectedOption);
     this.mes.title = this.title;
     this.mes.message = this.message;
-    if(o == this.options[0]) {
+    if (o === this.options[0]) {
       this.notificationService.sendAll(this.mes).subscribe(
         data => {
           this.success = true;
@@ -114,8 +114,7 @@ export class PushNotificationComponent implements OnInit {
           console.log(error.error.message);
         });
       console.log(o.value);
-    }
-    else {
+    } else {
       this.notificationService.sendUser(this.userId, this.mes).subscribe(
           data => {
             this.success = true;
@@ -129,15 +128,15 @@ export class PushNotificationComponent implements OnInit {
     }
   }
 
-  openModalDialog(){
+  openModalDialog() {
     this.userService.getAll(0).subscribe(data => {
       this.users = data;
-      this.userDetail='block';
+      this.userDetail = 'block';
     });
   }
 
-  closeModalDialog(){
-    this.userDetail='none';
+  closeModalDialog() {
+    this.userDetail = 'none';
   }
 
   selectUser(id: number) {
@@ -153,7 +152,7 @@ export class PushNotificationComponent implements OnInit {
   // @ts-ignore
   onSuccess(data) {
     console.log(data);
-    if (data != undefined) {
+    if (data !== undefined) {
       // @ts-ignore
       data.forEach(item => {
         this.users.push(new User(item));
@@ -163,7 +162,7 @@ export class PushNotificationComponent implements OnInit {
   }
 
   onScroll() {
-    console.log("Scrolled");
+    console.log('Scrolled');
     this.page = this.page + 1;
     this.loadAll(this.page);
   }
