@@ -10,9 +10,9 @@
                         <div>
                             <!--<a [routerLink]="['/users',user.id]">-->
                             <a (click)="openModalDialog(user.id)">
-                                <span *ngIf="user.fio !== 'null'">{{user.fio}}</span>
-                                <span *ngIf="user.email !== 'null'">{{user.email}}</span>
-                                <span *ngIf="user.phone !== 'null'">{{user.phone}}</span>
+                                <span >{{user.fio||user.email||user.phone}}</span>
+                                <!--<span *ngIf="user.email !== 'null'">{{user.email}}</span>
+                                <span *ngIf="user.phone !== 'null'">{{user.phone}}</span>-->
                             </a>
 
                             <div class="float-right">

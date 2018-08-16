@@ -5,6 +5,10 @@
   <a (click)="hide()" class="close" data-dismiss="alert" aria-label="close">&times;</a>
   {{message}}
 </div>
+<div  *ngIf="errors" class="alert alert-danger col-sm-6">
+  <a (click)="hideE()" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  {{message}}
+</div>
 <!-- Textarea -->
 <div class="row">
     <textarea  [(ngModel)]="title" placeholder="Оглавление" maxlength="80" class="col-sm-6"></textarea>

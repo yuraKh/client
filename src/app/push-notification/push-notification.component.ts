@@ -111,7 +111,7 @@ export class PushNotificationComponent implements OnInit {
         },
         error => {
           console.log(error.error.message);
-          this.errors = error.error.message;
+          this.errors = 'Не выбран пользователь';
           this.error = true;
         });
       console.log(o.value);

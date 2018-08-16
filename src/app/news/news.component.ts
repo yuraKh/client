@@ -12,6 +12,7 @@ export class NewsComponent implements OnInit {
    file: File;
    success = false;
    message: string;
+  errors = false;
 
   constructor(private newsService: NewsService) {
   }
@@ -21,6 +22,10 @@ export class NewsComponent implements OnInit {
 
   onChange(event: any) {
     this.file = event.target.files[0];
+  }
+
+  hideE() {
+    this.errors = false;
   }
 
   hide() {
@@ -38,6 +43,10 @@ export class NewsComponent implements OnInit {
       this.message = 'Новость опубликована';
       this.title = null;
       this.file = null;
-    });
+    },
+      error => {
+        this.message = error.error.message;
+        this.errors = true;
+      });
   }
 }
