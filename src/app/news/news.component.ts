@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {NewsService} from "./news.service";
+import {NewsService} from './news.service';
 
 @Component({
   selector: 'app-news',
@@ -29,13 +29,15 @@ export class NewsComponent implements OnInit {
 
   publish() {
     const formData = new FormData();
-    formData.append("title", this.title);
+    formData.append('title', this.title);
     formData.append('file', this.file, this.file.name);
 
     console.log(formData.get('title'));
     this.newsService.postNews(formData).subscribe(data => {
       this.success = true;
-      this.message = "Новость опубликована";
+      this.message = 'Новость опубликована';
+      this.title = null;
+      this.file = null;
     });
   }
 }
