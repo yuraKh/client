@@ -11,36 +11,55 @@ export class SettingService {
   private maxLimitUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/limits/max';
   private minLimitUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/limits/min';
   private cardLimitUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/limits/card';
-  private setInterestRateUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/services';
+  private interestRateUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/services';
   private getServicesUrl = 'https://s4.rprc05.ru:8036/api/v1/services';
 
-  constructor(private http: HttpClient) { }
+  private getLimitsUrl = 'https://s4.rprc05.ru:8036/api/v1/payments/limits';
 
-    setMode(id: number): Observable<any> {
-        let params = new HttpParams();
-        params.append('mode', id.toString());
-        return this.http.put(`${this.modeUrl}/{mode}?mode=${id}`,{
-            "message": "string"
-        });
-    }
+  constructor(private http: HttpClient) {
+  }
 
-    setMaxLimit(limit: number): Observable<any> {
-      return this.http.post(`${this.maxLimitUrl}/${limit}`, null);
-    }
+  setMode(id: number): Observable<any> {
+    let params = new HttpParams();
+    params.append('mode', id.toString());
+    return this.http.put(`${this.modeUrl}/{mode}?mode=${id}`, {
+      "message": "string"
+    });
+  }
 
-    setMinLimit(limit: number): Observable<any> {
-        return this.http.post(`${this.minLimitUrl}/${limit}`, null);
-    }
+  setMaxLimit(limit: number): Observable<any> {
+    return this.http.post(`${this.maxLimitUrl}/${limit}`, null);
+  }
 
-    setCardLimit(limit: number): Observable<any> {
-        return this.http.post(`${this.cardLimitUrl}/${limit}`, null);
-    }
+  getMaxLimit(): Observable<any> {
+    return this.http.get(`${this.getLimitsUrl}/max`);
+  }
 
-    setInterestRate(id: number, value: number): Observable<any> {
-        return this.http.post(`${this.setInterestRateUrl}/${id}/interest-rate`, {"value": value});
-    }
+  setMinLimit(limit: number): Observable<any> {
+    return this.http.post(`${this.minLimitUrl}/${limit}`, null);
+  }
 
-    getServices(): Observable<any> {
-      return this.http.get(this.getServicesUrl);
-    }
+  getMinLimit(): Observable<any> {
+    return this.http.get(`${this.getLimitsUrl}/min`);
+  }
+
+  setCardLimit(limit: number): Observable<any> {
+    return this.http.post(`${this.cardLimitUrl}/${limit}`, null);
+  }
+
+  getCardLimit(): Observable<any> {
+    return this.http.get(`${this.getLimitsUrl}/card`);
+  }
+
+  setInterestRate(id: number, value: number): Observable<any> {
+    return this.http.post(`${this.interestRateUrl}/${id}/interest-rate`, {"value": value});
+  }
+
+  getInterestRate(id: number): Observable<any> {
+    return this.http.get(`${this.interestRateUrl}/${id}/interest-rate`);
+  }
+
+  getServices(): Observable<any> {
+    return this.http.get(this.getServicesUrl);
+  }
 }

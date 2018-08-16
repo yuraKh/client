@@ -1,0 +1,104 @@
+<p>
+</p>
+
+<div  *ngIf="success" class="alert alert-success col-sm-6">
+  <a (click)="hide()" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  {{successMes}}
+</div>
+<div  *ngIf="error" class="alert alert-danger col-sm-6">
+  <a (click)="hideE()" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  {{errors}}
+</div>
+<div class="row">
+  <div class="col col-sm-6">
+    <h3>Информационные сообщения</h3>
+    <p></p>
+<div class="row">
+  <textarea  [(ngModel)]="title" placeholder="Оглавление" type="text" class="col-sm-10" maxlength="80"></textarea>
+</div>
+<p></p>
+<div class="row">
+  <textarea  [(ngModel)]="message" placeholder="Сообщение" type="text" maxlength="300" class="col-sm-10" rows="5"></textarea>
+</div>
+<p></p>
+<div class="row col-sm-10">
+<select [(ngModel)]="selectedOption" name="mode" (change)="onChange($event.target.value)">
+  <option [ngValue]="undefined" disabled  selected> Кому отправить </option>
+  <option *ngFor="let o of options">
+    {{o.name}}
+  </option>
+</select>
+    <button [hidden]="hideSelectUser" type="button" style="margin-left: 15px" class="btn btn-primary btn-sm" (click)="openModalDialog()">Выбрать</button>
+
+    <button [disabled]="!selectedOption||!title||!message||!userId" type="button" style="margin-left: 15px" class="btn btn-primary btn-sm" (click)="send()">Отправить</button>
+</div>
+</div>
+  <div class="col col-sm-6">
+    <h3>Долги</h3>
+    <p></p>
+    <div class="row">
+      <div class="col-sm-10">
+        <select [(ngModel)]="selectedService" name="service" (change)="getService($event.target.value)">
+          <option [ngValue]="undefined" disabled  selected> Название услуги </option>
+          <option *ngFor="let s of serviceList">
+            {{s.name}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <p></p>
+  <div>
+    <input [(ngModel)]="saldo" placeholder="сума"  type="number" min="0" max="99999.99" class="col-sm-10">
+  </div>
+    <p></p>
+<div>
+    <button [disabled]="!saldo||!servId" type="button" style="margin-left: 15px" class="btn btn-primary btn-sm" (click)="sendSaldo()">Отправить</button>
+</div>
+  </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':userDetail}">
+  <!-- modal-dialog -->
+  <div class="modal-dialog" role="document">
+    <!-- modal-content -->
+    <div class="modal-content">
+      <!-- modal-header -->
+      <div class="modal-header">
+        <h3>
+          Выберите пользователя
+        </h3>
+        <button type="button" class="close" aria-label="Close" (click)="closeModalDialog()"><span aria-hidden="true">&times;</span></button>
+        <!-- <h4 class="modal-title">Login</h4> -->
+      </div>
+
+      <!-- modal-body -->
+      <div class="modal-body">
+        <div class="container" style="min-height: 400px">
+          <div infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false"  style="height: 450px; overflow-y: scroll;">
+            <div *ngFor="let user of users">
+              <div>
+                <!--<a [routerLink]="['/users',user.id]">-->
+                <a (click)="selectUser(user.id)">
+                  <span *ngIf="user.fio !== 'null'">{{user.fio}}</span>
+                  <span *ngIf="user.email !== 'null'">{{user.email}}</span>
+                  <span *ngIf="user.phone !== 'null'">{{user.phone}}</span>
+                </a>
+                <div class="float-right">
+                   <span *ngIf="user.status === 'Активен'" class="hashteg badge badge-success">{{user.status}}</span>
+  <span *ngIf="user.status === 'Удален'" class="hashteg badge badge-danger">{{user.status}}</span>
+  <span *ngIf="user.status === 'Заблокирован'" class="hashteg badge badge-warning">{{user.status}}</span>
+    <span *ngIf="user.status === 'Сброс учетных данных'" class="hashteg badge badge-secondary">{{user.status}}</span>
+
+                </div>
+              </div>
+              <hr>
+            </div>
+          </div>
+      </div>
+
+      <!-- modal-footer -->
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+</div>

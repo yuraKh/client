@@ -1,10 +1,12 @@
+<p></p>
 <div class="container" [ngSwitch]="isAuthenticated()">
 <div *ngSwitchCase="true">
-    <div class="form-group " >
-        <h2>Администраторы</h2>
-        <p></p>
-        <button [hidden]="isShowing" type="button" (click)="isShowing = !isShowing" class="postform btn btn-primary btn-sm">Создать</button>
 
+  <h2>Администраторы</h2>
+  <p></p>
+  <button [hidden]="isShowing" type="button" (click)="isShowing = !isShowing" class="btn btn-primary btn-sm">Создать</button>
+
+  <div class="form-group " >
 
         <form [formGroup]="adminForm" (ngSubmit)="saveAdmin()" [hidden]="!isShowing" class="postform col-sm-5">
             <div class="form-group">
@@ -27,9 +29,10 @@
             </div>
             <div *ngIf="error" class="alert alert-danger">{{error}}</div>
         </form>
+    </div>
         <div>
             <div class="container" style="min-height: 300px">
-                <div  infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="true">
+                <div  infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false" style="height: 400px; overflow-y: scroll;">
                     <div *ngFor="let admin of admins">
                         <span>{{admin.email}}</span>
                         <div class="float-right">
@@ -46,6 +49,6 @@
                 </div>
             </div>
         </div>
-    </div>
+
 </div>
 </div>

@@ -6,6 +6,8 @@ import {SettingComponent} from "./setting/setting.component";
 import {UserComponent} from "./user/user.component";
 import {OperationsComponent} from "./operations/operations.component";
 import {AccountComponent} from "./account/account.component";
+import {PushNotificationComponent} from "./push-notification/push-notification.component";
+import {NewsComponent} from "./news/news.component";
 
 
 const appRoutes: Routes = [
@@ -16,7 +18,10 @@ const appRoutes: Routes = [
     { path: 'users', component: UserComponent },
     { path: 'users/:id/operations', component: OperationsComponent },
     { path: 'users/:id/accounts', component: AccountComponent },
-    // otherwise redirect to home
+    { path: 'notifications', component: PushNotificationComponent },
+    { path: 'news', component: NewsComponent },
+
+  // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
 

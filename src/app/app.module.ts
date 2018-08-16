@@ -22,8 +22,10 @@ import {FormsModule} from '@angular/forms';
 import { UserComponent } from './user/user.component';
 import {UserService} from './user/user.service';
 import { OperationsComponent } from './operations/operations.component';
-import { AccountComponent } from './account/account.component';
-
+import { AccountComponent } from './account/account.component';;
+import { PushNotificationComponent } from './push-notification/push-notification.component'
+;
+import { NewsComponent } from './news/news.component'
 @NgModule({
     imports: [
         BrowserModule,
@@ -45,7 +47,9 @@ import { AccountComponent } from './account/account.component';
         UserComponent
 ,
         OperationsComponent ,
-        AccountComponent   ],
+        AccountComponent ,
+        PushNotificationComponent ,
+        NewsComponent ],
     providers: [
         AuthGuard,
         AuthenticationService,

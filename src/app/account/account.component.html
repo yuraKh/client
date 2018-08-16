@@ -1,6 +1,6 @@
+<p></p>
 <div [ngSwitch]="isAuthenticated()">
-  <div *ngSwitchCase="true" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollOperations()" [scrollWindow]="false"
-       style="height: 400px; overflow-y: scroll;">
+  <div *ngSwitchCase="true" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollOperations()" [scrollWindow]="true">
 
     <table class="table">
       <thead>

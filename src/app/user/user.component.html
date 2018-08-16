@@ -1,10 +1,11 @@
+<p></p>
 <div class="container" [ngSwitch]="isAuthenticated()">
     <div *ngSwitchCase="true">
         <h2>Пользователи</h2>
         <p></p>
         <div>
             <div class="container" style="min-height: 400px">
-                <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="true">
+                <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false"  style="height: 450px; overflow-y: scroll;">
                     <div *ngFor="let user of users">
                         <div>
                             <!--<a [routerLink]="['/users',user.id]">-->
