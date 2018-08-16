@@ -52,7 +52,6 @@ export class PushNotificationComponent implements OnInit {
       this.hideSelectUser = false;
 
     } else {
-      this.userId = 1;
       this.hideSelectUser = true;
     }
   }
@@ -80,7 +79,7 @@ export class PushNotificationComponent implements OnInit {
   sendSaldo() {
      this.notificationService.sendrArears(this.servId, this.saldo).subscribe(data => {
       this.saldo = 0;
-      this.servId = 0;
+      // this.servId = 0;
        this.success = true;
        this.successMes = data.message;
     },
@@ -107,12 +106,13 @@ export class PushNotificationComponent implements OnInit {
         data => {
           this.success = true;
           this.successMes = data.message;
-          this.userId = null;
           this.title = null;
           this.message = null;
         },
         error => {
           console.log(error.error.message);
+          this.errors = error.error.message;
+          this.error = true;
         });
       console.log(o.value);
     } else {
@@ -120,10 +120,14 @@ export class PushNotificationComponent implements OnInit {
           data => {
             this.success = true;
             this.successMes = data.message;
+            this.title = null;
+            this.message = null;
             this.userId = null;
           },
           error => {
             console.log(error.error.message);
+            this.errors = error.error.message;
+            this.error = true;
           });
       console.log(o.value);
     }

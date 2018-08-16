@@ -30,7 +30,7 @@
 </select>
     <button [hidden]="hideSelectUser" type="button" style="margin-left: 15px" class="btn btn-primary btn-sm" (click)="openModalDialog()">Выбрать</button>
 
-    <button [disabled]="!selectedOption||!title||!message||!userId" type="button" style="margin-left: 15px" class="btn btn-primary btn-sm" (click)="send()">Отправить</button>
+    <button [disabled]="!selectedOption||!title||!message" type="button" style="margin-left: 15px" class="btn btn-primary btn-sm" (click)="send()">Отправить</button>
 </div>
 </div>
   <div class="col col-sm-6">
