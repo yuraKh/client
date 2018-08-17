@@ -1,4 +1,4 @@
-﻿import {RouterModule, Routes} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from './login';
 import {AdminsComponent} from './admins/admins.component';
 import {SignupComponent} from './signup/signup.component';
@@ -8,7 +8,7 @@ import {OperationsComponent} from './operations/operations.component';
 import {AccountComponent} from './account/account.component';
 import {PushNotificationComponent} from './push-notification/push-notification.component';
 import {NewsComponent} from './news/news.component';
-
+import {LogsComponent} from './logs/logs.component';
 
 const appRoutes: Routes = [
     { path: '', component: LoginComponent },
@@ -20,7 +20,7 @@ const appRoutes: Routes = [
     { path: 'users/:id/accounts', component: AccountComponent },
     { path: 'notifications', component: PushNotificationComponent },
     { path: 'news', component: NewsComponent },
-
+    { path: 'logs', component: LogsComponent},
   // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
