@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {SettingService} from "./setting.service";
-import {Service} from "./service.model";
-import {AuthenticationService} from "../_services";
+import {Component, OnInit} from '@angular/core';
+import {SettingService} from './setting.service';
+import {Service} from './service.model';
+import {AuthenticationService} from '../_services';
 
 @Component({
   selector: 'app-setting',
@@ -23,8 +23,8 @@ export class SettingComponent implements OnInit {
   interestRate: number;
 
   options = [
-    {name: "Обычный режим", value: 1},
-    {name: "Режим обслуживания", value: 2}
+    {name: 'Обычный режим', value: 1},
+    {name: 'Режим обслуживания', value: 2}
   ];
 
   constructor(private settingService: SettingService,
@@ -46,12 +46,12 @@ export class SettingComponent implements OnInit {
   }
 
   setMode() {
-    const o = this.options.find(x => x.name == this.selectedOption);
+    const o = this.options.find(x => x.name === this.selectedOption);
     this.settingService.setMode(o.value).subscribe(
       data => {
         this.maxLimitSuccess = true;
         this.message = 'Режим работы изменен на: ' + this.selectedOption;
-        //this.ngOnInit();
+        // this.ngOnInit();
       },
       error => {
         console.log(error.error.message);
@@ -78,7 +78,7 @@ export class SettingComponent implements OnInit {
       data => {
         this.maxLimitSuccess = true;
         this.message = 'Минимальное значение общей сумы платежа успешно изменено';
-        console.log(data)
+        console.log(data);
       });
   }
 
@@ -87,17 +87,17 @@ export class SettingComponent implements OnInit {
       data => {
         this.maxLimitSuccess = true;
         this.message = 'Минимальная сума платежа с банковской карты успешно изменено';
-        console.log(data)
+        console.log(data);
       });
   }
 
   saveInterestRate() {
-    let o = this.serviceList.find(x => x.name == this.selectedService);
+    const o = this.serviceList.find(x => x.name === this.selectedService);
     this.settingService.setInterestRate(o.id, this.interestRate).subscribe(
       data => {
         this.maxLimitSuccess = true;
         this.message = 'Процентная ставка для услуги ' + this.selectedService + ' успешно изменено';
-        console.log(data)
+        console.log(data);
       });
   }
 

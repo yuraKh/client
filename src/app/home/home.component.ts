@@ -1,8 +1,8 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
-import {UserService} from "../user/user.service";
-import {User} from "../user/user.model";
+import {UserService} from '../user/user.service';
+import {User} from '../user/user.model';
 
 @Component({templateUrl: 'home.component.html'})
 export class HomeComponent implements OnInit {
@@ -13,11 +13,9 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         // @ts-ignore
         this.userService.getAll().pipe(first()).subscribe(users => {
-            this.users = users; 
+            this.users = users;
         });
     }
-    
-    onClick(){
-        
+    onClick() {
     }
 }

@@ -1,19 +1,17 @@
 <p></p>
 <h3>Новости</h3>
-<label class="control-label" ></label>
-<div  *ngIf="success" class="alert alert-success col-sm-6">
-  <a (click)="hide()" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  {{message}}
+<label class="control-label"></label>
+<div *ngIf="success" class="alert alert-success col-sm-6">
+    <a (click)="hide()" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{message}}
 </div>
-<div  *ngIf="errors" class="alert alert-danger col-sm-6">
-  <a (click)="hideE()" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  {{message}}
+<div *ngIf="errors" class="alert alert-danger col-sm-6">
+    <a (click)="hideE()" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{message}}
 </div>
 <!-- Textarea -->
 <div class="row">
-    <textarea  [(ngModel)]="title" placeholder="Оглавление" maxlength="80" class="col-sm-6"></textarea>
+    <textarea [(ngModel)]="title" placeholder="Оглавление" maxlength="80" class="col-sm-6"></textarea>
 </div>
-<label class="control-label" ></label>
+<label class="control-label"></label>
 
 <!-- File Button -->
 <div class="row">
@@ -22,8 +20,8 @@
 
 <!-- Button -->
 <div class="control-group">
-  <label class="control-label" ></label>
-  <div class="controls">
-    <button [disabled]="!title||!file" (click)="publish()" class="btn btn-info">Отправить</button>
-  </div>
+    <label class="control-label"></label>
+    <div class="controls">
+        <button [disabled]="!title||!file" (click)="publish()" class="btn btn-info">Отправить</button>
+    </div>
 </div>

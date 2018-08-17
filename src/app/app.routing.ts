@@ -2,12 +2,12 @@
 import {LoginComponent} from './login';
 import {AdminsComponent} from './admins/admins.component';
 import {SignupComponent} from './signup/signup.component';
-import {SettingComponent} from "./setting/setting.component";
-import {UserComponent} from "./user/user.component";
-import {OperationsComponent} from "./operations/operations.component";
-import {AccountComponent} from "./account/account.component";
-import {PushNotificationComponent} from "./push-notification/push-notification.component";
-import {NewsComponent} from "./news/news.component";
+import {SettingComponent} from './setting/setting.component';
+import {UserComponent} from './user/user.component';
+import {OperationsComponent} from './operations/operations.component';
+import {AccountComponent} from './account/account.component';
+import {PushNotificationComponent} from './push-notification/push-notification.component';
+import {NewsComponent} from './news/news.component';
 
 
 const appRoutes: Routes = [

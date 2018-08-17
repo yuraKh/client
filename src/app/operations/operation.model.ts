@@ -13,7 +13,7 @@ export class Operation {
     payment_status: string;
 
     constructor(item?: Operation) {
-        if (item != undefined) {
+        if (item !== undefined) {
             for (let key in item) {
                 try {
                     this[key] = item[key];

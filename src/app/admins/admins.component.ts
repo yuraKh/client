@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AdminsService} from './admins.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Admin} from "./admins.model";
-import {AuthenticationService} from "../_services";
+import {AuthenticationService} from '../_services';
 
 @Component({
   selector: 'app-admins',

@@ -5,12 +5,12 @@
         <p></p>
         <div>
             <div class="container" style="min-height: 400px">
-                <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false"  style="height: 450px; overflow-y: scroll;">
+                <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false" style="height: 450px; overflow-y: scroll;">
                     <div *ngFor="let user of users">
                         <div>
                             <!--<a [routerLink]="['/users',user.id]">-->
                             <a (click)="openModalDialog(user.id)">
-                                <span >{{user.fio||user.email||user.phone}}</span>
+                                <span>{{user.fio||user.email||user.phone}}</span>
                                 <!--<span *ngIf="user.email !== 'null'">{{user.email}}</span>
                                 <span *ngIf="user.phone !== 'null'">{{user.phone}}</span>-->
                             </a>

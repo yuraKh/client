@@ -4,12 +4,13 @@ export class Account {
     date: string;
 
     constructor(item?: Account) {
-        if (item != undefined) {
-            for (let key in item) {
+        if (item !== undefined) {
+            for (const key in item) {
                 try {
                     this[key] = item[key];
                 }
                 catch (e) {
+
                 }
             }
         }

@@ -1,16 +1,13 @@
 ﻿<!-- main app container -->
 <app-navbar></app-navbar>
-<div class="row" style=" alignment: center">
+<div class="row">
 
-<div  class="col-sm-3" style=" alignment: center">
-  <div class="container">
-  <app-menu></app-menu>
-  </div>
-</div>
-    <div  class="col-sm-9" style="alignment: center">
+    <div class="col-sm-2">
 
-    <div class="container">
-                <router-outlet></router-outlet>
-        </div>
+        <app-menu></app-menu>
+
+    </div>
+    <div class="col-sm-9">
+        <router-outlet></router-outlet>
     </div>
 </div>

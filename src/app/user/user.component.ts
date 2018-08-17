@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from "./user.service";
-import {User} from "./user.model";
-import {Operation} from "../operations/operation.model";
-import {AuthenticationService} from "../_services";
+import {UserService} from './user.service';
+import {User} from './user.model';
+import {AuthenticationService} from '../_services';
 
 @Component({
   selector: 'app-user',
@@ -13,9 +12,9 @@ export class UserComponent implements OnInit {
 
     users: User[] = [];
     u: User = new User();
-    page: number = 0;
+    page = 0;
 
-    userDetail='none'; //default Variable
+    userDetail = 'none'; // default Variable
 
     constructor(private userService: UserService,
                 private authenticationService: AuthenticationService
@@ -28,15 +27,15 @@ export class UserComponent implements OnInit {
         this.loadAll(this.page);
     }
 
-    openModalDialog(id: number){
+    openModalDialog(id: number) {
         this.userService.getUser(id).subscribe(data => {
             this.u = data;
-            this.userDetail='block';
+            this.userDetail = 'block';
         });
     }
 
-    closeModalDialog(){
-        this.userDetail='none'; //set none css after close dialog
+    closeModalDialog() {
+        this.userDetail = 'none'; // set none css after close dialog
     }
 
     loadAll(page: number) {
@@ -46,7 +45,7 @@ export class UserComponent implements OnInit {
     // @ts-ignore
     onSuccess(data) {
         console.log(data);
-        if (data != undefined) {
+        if (data !== undefined) {
             // @ts-ignore
             data.forEach(item => {
                 this.users.push(new User(item));
@@ -56,7 +55,7 @@ export class UserComponent implements OnInit {
     }
 
     onScroll() {
-        console.log("Scrolled");
+        console.log('Scrolled');
         this.page = this.page + 1;
         this.loadAll(this.page);
     }

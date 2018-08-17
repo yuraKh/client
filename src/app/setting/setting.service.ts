@@ -20,10 +20,8 @@ export class SettingService {
   }
 
   setMode(id: number): Observable<any> {
-    let params = new HttpParams();
-    params.append('mode', id.toString());
     return this.http.put(`${this.modeUrl}/{mode}?mode=${id}`, {
-      "message": "string"
+      'message': 'string'
     });
   }
 
@@ -52,7 +50,7 @@ export class SettingService {
   }
 
   setInterestRate(id: number, value: number): Observable<any> {
-    return this.http.post(`${this.interestRateUrl}/${id}/interest-rate`, {"value": value});
+    return this.http.post(`${this.interestRateUrl}/${id}/interest-rate`, {'value': value});
   }
 
   getInterestRate(id: number): Observable<any> {

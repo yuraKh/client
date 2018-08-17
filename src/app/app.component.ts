@@ -1,5 +1,4 @@
-﻿import { Component } from '@angular/core';
-import {OnInit} from '@angular/core';
+﻿import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from './_services';
 
 @Component({
@@ -7,11 +6,11 @@ import {AuthenticationService} from './_services';
     templateUrl: 'app.component.html'
 })
 
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
     ngOnInit() {
     }
 
-    constructor (private authenticationService: AuthenticationService){}
+    constructor (private authenticationService: AuthenticationService) {}
 
     isAuthenticated() {
         return this.authenticationService.isAuthenticated();

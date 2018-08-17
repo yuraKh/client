@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 export class UserService {
 
     private userBaseUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/users';
+    private searchUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/users/filter';
 
     constructor(private http: HttpClient) { }
 
@@ -33,4 +34,9 @@ export class UserService {
     getUser(id: number): Observable<any> {
         return this.http.get(`${this.userBaseUrl}/${id}`);
     }
+
+    searchUser(filter: string): Observable<any> {
+      return this.http.get(`${this.searchUrl}/${filter}`);
+    }
+
 }

@@ -1,0 +1,107 @@
+<p></p>
+<div class="row">
+    <section class="filter-wrapper col-sm-6">
+        <div class="keyword-wrapper">
+            <input [formControl]="queryField" minlength="3" type="text" class="col-sm-12" placeholder="Введите имя либо почту пользователя" />
+        </div>
+        <ul class="filter-select">
+            <li *ngFor="let user of results" class="filter-select-list">
+                <a (click)="selectUser(user)">
+                    <p class="artist-name">
+                        <span>{{user.fio||user.email||user.phone}}</span></p>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+</div>
+<label></label>
+<div class="row">
+    <div [hidden]="!userId" *ngIf="uzer">
+        <span [(ngModel)]="uzer">{{uzer.fio||uzer.email||uzer.phone}}</span>
+        <button type="button" class="btn btn-info btn-sm" style="margin-left: 5px" (click)="getSmsLogs()">Логи запросов SMS</button>
+        <button type="button" class="btn btn-info btn-sm" style="margin-left: 5px" (click)="getAcquiringLogs()">Логи запросов интернет-эквайринга</button>
+    </div>
+</div>
+<label></label>
+<div [ngSwitch]="isAuthenticated()">
+    <div [hidden]="!showSmsLogs" *ngSwitchCase="true" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollOperations()" [scrollWindow]="false" style="height: 500px; overflow-y: scroll;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Тип запроса</th>
+                    <th scope="col">Результат выполнения</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let sms of smsLogs">
+                    <td>{{sms.date}}</td>
+                    <td>{{sms.type}}</td>
+                    <td>{{sms.result}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <label></label>
+    <div [ngSwitch]="isAuthenticated()">
+        <div [hidden]="!showAcquiringLogs" *ngSwitchCase="true" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollOperations()" [scrollWindow]="false" style="height: 500px; overflow-y: scroll;">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Дата</th>
+                        <th scope="col">Тип запроса</th>
+                        <th scope="col">OrderID</th>
+                        <th scope="col">Результат выполнения</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let sms of acquiringLogs">
+                        <td>{{sms.date|date:'dd.MM.yy'}}</td>
+                        <td>{{sms.type}}</td>
+                        <td>{{sms.id_order}}</td>
+                        <td>{{sms.result}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':userDetail}">
+    <!-- modal-dialog -->
+    <div class="modal-dialog" role="document">
+        <!-- modal-content -->
+        <div class="modal-content">
+            <!-- modal-header -->
+            <div class="modal-header">
+                <h3>
+                    Выберите пользователя
+                </h3>
+                <button type="button" class="close" aria-label="Close" (click)="closeModalDialog()"><span aria-hidden="true">&times;</span></button>
+                <!-- <h4 class="modal-title">Login</h4> -->
+            </div>
+
+            <!-- modal-body -->
+            <div class="modal-body">
+                <div class="container" style="height: 400px; overflow-y: scroll;">
+                    <div *ngFor="let user of users">
+                        <div>
+                            <a (click)="selectUser(user)">
+                                <span>{{user.fio||user.email||user.phone}}</span>
+                            </a>
+
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+
+                <!-- modal-footer -->
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
