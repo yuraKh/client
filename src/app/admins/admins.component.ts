@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AdminsService} from './admins.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Admin} from "./admins.model";
+import {Admin} from './admins.model';
 import {AuthenticationService} from '../_services';
 
 @Component({
@@ -10,91 +10,90 @@ import {AuthenticationService} from '../_services';
   styleUrls: ['./admins.component.css']
 })
 export class AdminsComponent implements OnInit {
-    adminForm: FormGroup;
-    admins: Admin[] = [];
-    page: number = 0;
-    isShowing = false;
-    submitted = false;
-    error = '';
+  adminForm: FormGroup;
+  admins: Admin[] = [];
+  page = 0;
+  isShowing = false;
+  submitted = false;
+  error = '';
 
+  constructor(private adminsService: AdminsService,
+              private formBuilder: FormBuilder,
+              private authenticationService: AuthenticationService
+  ) {
+  }
 
-    constructor(private adminsService: AdminsService,
-                private formBuilder: FormBuilder,
-                private authenticationService: AuthenticationService
-    ) {
-    }
+  get f() {
+    return this.adminForm.controls;
+  }
 
-    ngOnInit() {
-        this.page = 0;
-        this.admins = [];
-        this.adminForm = this.formBuilder.group({
-            email: ['', Validators.required],
-            password: ['', Validators.required]
-        });
-        this.loadAll(this.page);
-    }
+  ngOnInit() {
+    this.page = 0;
+    this.admins = [];
+    this.adminForm = this.formBuilder.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+    this.loadAll(this.page);
+  }
 
-    loadAll(page: number) {
-        this.adminsService.getAll(page).subscribe((data) => this.onSuccess(data));
-    }
+  loadAll(page: number) {
+    this.adminsService.getAll(page).subscribe((data) => this.onSuccess(data));
+  }
 
-    // @ts-ignore
-    onSuccess(data) {
-        console.log(data);
-        if (data != undefined) {
-            // @ts-ignore
-            data.forEach(item => {
-                this.admins.push(new Admin(item));
-            });
-            // this.admins = data;
-        }
-    }
-
-    onScroll()
-    {
-        console.log("Scrolled");
-        this.page = this.page + 1;
-        this.loadAll(this.page);
-    }
-
-    clearForm() {
-        this.adminForm.reset();
-        this.isShowing = false;
-    }
-    deleteAdmin(id: number) {
-      // const admin = this.admins.find(x => x.email == email);
-      this.adminsService.deleteAdmin(id).subscribe(data => {
-          this.ngOnInit();
+  // @ts-ignore
+  onSuccess(data) {
+    console.log(data);
+    if (data !== undefined) {
+      // @ts-ignore
+      data.forEach(item => {
+        this.admins.push(new Admin(item));
       });
+      // this.admins = data;
     }
+  }
 
-    blockAdmin(id: number) {
-        this.adminsService.blockAdmin(id).subscribe(data => {
-            this.ngOnInit();
-        });
-    }
+  onScroll() {
+    console.log('Scrolled');
+    this.page = this.page + 1;
+    this.loadAll(this.page);
+  }
 
-    get f() {
-        return this.adminForm.controls;
-    }
+  clearForm() {
+    this.adminForm.reset();
+    this.isShowing = false;
+  }
 
-    saveAdmin() {
-        this.submitted = true;
-        if (this.adminForm.invalid) {
-            return;
-        }
-        this.adminsService.saveAdmin(this.f.email.value, this.f.password.value).subscribe(
-            data => {
-                this.isShowing = false;
-                this.ngOnInit();
-            },
-            error => {
-                console.log(error);
-                this.error = error.error.message;
-            });
-    }
+  deleteAdmin(id: number) {
+    // const admin = this.admins.find(x => x.email == email);
+    this.adminsService.deleteAdmin(id).subscribe(data => {
+      this.ngOnInit();
+    });
+  }
 
-    isAuthenticated() {
-        return this.authenticationService.isAuthenticated();
+  blockAdmin(id: number) {
+    this.adminsService.blockAdmin(id).subscribe(data => {
+      this.ngOnInit();
+    });
+  }
+
+  saveAdmin() {
+    this.submitted = true;
+    if (this.adminForm.invalid) {
+      return;
     }
+    this.adminsService.saveAdmin(this.f.email.value, this.f.password.value).subscribe(
+      data => {
+        this.isShowing = false;
+        this.ngOnInit();
+      },
+      error => {
+        console.log(error);
+        this.error = error.error.message;
+      });
+  }
+
+  isAuthenticated() {
+    return this.authenticationService.isAuthenticated();
+  }
 }

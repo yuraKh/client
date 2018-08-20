@@ -8,10 +8,10 @@ import {NewsService} from './news.service';
 })
 export class NewsComponent implements OnInit {
 
-   title: string;
-   file: File;
-   success = false;
-   message: string;
+  title: string;
+  file: File;
+  success = false;
+  message: string;
   errors = false;
 
   constructor(private newsService: NewsService) {
@@ -39,11 +39,11 @@ export class NewsComponent implements OnInit {
 
     console.log(formData.get('title'));
     this.newsService.postNews(formData).subscribe(data => {
-      this.success = true;
-      this.message = 'Новость опубликована';
-      this.title = null;
-      this.file = null;
-    },
+        this.success = true;
+        this.message = 'Новость опубликована';
+        this.title = null;
+        this.file = null;
+      },
       error => {
         this.message = error.error.message;
         this.errors = true;

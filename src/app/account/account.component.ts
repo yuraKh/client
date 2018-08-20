@@ -11,34 +11,35 @@ import {Account} from './account.model';
 })
 export class AccountComponent implements OnInit {
 
-    private accounts: Account[] = [];
-    private page = 0;
-    private id: number;
+  accounts: Account[] = [];
+  page = 0;
+  id: number;
 
-    constructor(private userService: UserService,
-                private authenticationService: AuthenticationService,
-                private route: ActivatedRoute) { }
-
-  ngOnInit() {
-      this.id = this.route.snapshot.params['id'];
-      this.userService.getUserAccounts(this.id, this.page).subscribe(data => {
-          this.accounts = data;
-      });
+  constructor(private userService: UserService,
+              private authenticationService: AuthenticationService,
+              private route: ActivatedRoute) {
   }
 
-    onScrollOperations() {
-        this.page = this.page + 1;
-        this.userService.getUserOperations(this.id, this.page).subscribe(data => {
-            if (data !== undefined) {
-                // @ts-ignore
-                data.forEach(item => {
-                    this.accounts.push(new Account(item));
-                });
-            }
-        });
-    }
+  ngOnInit() {
+    this.id = this.route.snapshot.params['id'];
+    this.userService.getUserAccounts(this.id, this.page).subscribe(data => {
+      this.accounts = data;
+    });
+  }
 
-    isAuthenticated() {
-        return this.authenticationService.isAuthenticated();
-    }
+  onScrollOperations() {
+    this.page = this.page + 1;
+    this.userService.getUserOperations(this.id, this.page).subscribe(data => {
+      if (data !== undefined) {
+        // @ts-ignore
+        data.forEach(item => {
+          this.accounts.push(new Account(item));
+        });
+      }
+    });
+  }
+
+  isAuthenticated() {
+    return this.authenticationService.isAuthenticated();
+  }
 }
