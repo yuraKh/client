@@ -8,6 +8,7 @@ import {OperationsComponent} from './operations/operations.component';
 import {AccountComponent} from './account/account.component';
 import {PushNotificationComponent} from './push-notification/push-notification.component';
 import {NewsComponent} from './news/news.component';
+import {LogsComponent} from './logs/logs.component';
 
 
 const appRoutes: Routes = [
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
     { path: 'users/:id/accounts', component: AccountComponent },
     { path: 'notifications', component: PushNotificationComponent },
     { path: 'news', component: NewsComponent },
+  {path: 'logs', component: LogsComponent},
 
   // otherwise redirect to home
     { path: '**', redirectTo: '' }

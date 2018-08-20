@@ -5,6 +5,7 @@ import {UserService} from '../user/user.service';
 import {User} from '../user/user.model';
 import {Service} from '../setting/service.model';
 import {SettingService} from '../setting/setting.service';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-push-notification',
@@ -13,51 +14,69 @@ import {SettingService} from '../setting/setting.service';
 })
 export class PushNotificationComponent implements OnInit {
 
-   title: string;
-   message: string;
-   mes: Message = new Message();
-   saldo: number;
-   servId: number;
+
+  title: string;
+  message: string;
+
+  saldo: number;
+  servId: number;
   successMes: string;
   selectedOption: string;
+  errors: string;
+
   success = false;
   hideSelectUser = true;
+  error = false;
+
+  mes: Message = new Message();
+  serviceList: Service[] = [];
+  user: User;
+  results: User[] = [];
+  queryField: FormControl = new FormControl();
+
   options = [
     {name: 'Всем пользователям', value: 1},
     {name: 'Пользователю по ID', value: 2}
   ];
-  error = false;
-  errors: string;
-  users: User[] = [];
-  userId: number;
-  page = 0;
-
-  serviceList: Service[] = [];
-  selectedService: string;
-  userDetail = 'none';
 
   constructor(private notificationService: NotificationService,
               private userService: UserService,
-              private settingService: SettingService) { }
+              private settingService: SettingService) {
+  }
 
   ngOnInit() {
+    this.queryField.valueChanges
+      .subscribe(queryField => {
+        if (queryField.length >= 3) {
+          console.log(queryField);
+          this.userService.searchUser(queryField).subscribe(response => this.results = response);
+        } else {
+          this.init();
+        }
+      });
     this.settingService.getServices().subscribe(data => {
       this.serviceList = data;
       console.log(this.serviceList);
     });
   }
 
-  onChange(event: any) {
-    if (event === this.options[1].name) {
-      this.hideSelectUser = false;
+  init() {
+    this.results = [];
+  }
 
-    } else {
-      this.hideSelectUser = true;
-    }
+  selectUser(user: User) {
+    console.log(user);
+    this.user = user;
+    this.results = [];
+    this.queryField.setValue('');
+  }
+
+  onChange(event: any) {
+    this.hideSelectUser = event !== this.options[1].name;
   }
 
   getService(event: any) {
-    this.serviceList.forEach(item => {
+    this.serviceList.forEach(() => {
       switch (event) {
         case 'Газ':
           this.servId = 1;
@@ -77,16 +96,16 @@ export class PushNotificationComponent implements OnInit {
   }
 
   sendSaldo() {
-     this.notificationService.sendrArears(this.servId, this.saldo).subscribe(data => {
-      this.saldo = 0;
-      // this.servId = 0;
-       this.success = true;
-       this.successMes = data.message;
-    },
-       e => {
-         this.errors = e.error.message;
-         this.error = true;
-       });
+    this.notificationService.sendrArears(this.servId, this.saldo).subscribe(data => {
+        this.saldo = 0;
+        // this.servId = 0;
+        this.success = true;
+        this.successMes = data.message;
+      },
+      e => {
+        this.errors = e.error.message;
+        this.error = true;
+      });
   }
 
   hide() {
@@ -116,59 +135,19 @@ export class PushNotificationComponent implements OnInit {
         });
       console.log(o.value);
     } else {
-      this.notificationService.sendUser(this.userId, this.mes).subscribe(
-          data => {
-            this.success = true;
-            this.successMes = data.message;
-            this.title = null;
-            this.message = null;
-            this.userId = null;
-          },
-          error => {
-            console.log(error.error.message);
-            this.errors = error.error.message;
-            this.error = true;
-          });
+      this.notificationService.sendUser(this.user.id, this.mes).subscribe(
+        data => {
+          this.success = true;
+          this.successMes = data.message;
+          this.title = null;
+          this.message = null;
+        },
+        error => {
+          console.log(error.error.message);
+          this.errors = error.error.message;
+          this.error = true;
+        });
       console.log(o.value);
     }
-  }
-
-  openModalDialog() {
-    this.userService.getAll(0).subscribe(data => {
-      this.users = data;
-      this.userDetail = 'block';
-    });
-  }
-
-  closeModalDialog() {
-    this.userDetail = 'none';
-  }
-
-  selectUser(id: number) {
-    console.log(id);
-    this.userId = id;
-    this.closeModalDialog();
-  }
-
-  loadAll(page: number) {
-    this.userService.getAll(page).subscribe((data) => this.onSuccess(data));
-  }
-
-  // @ts-ignore
-  onSuccess(data) {
-    console.log(data);
-    if (data !== undefined) {
-      // @ts-ignore
-      data.forEach(item => {
-        this.users.push(new User(item));
-      });
-      // this.admins = data;
-    }
-  }
-
-  onScroll() {
-    console.log('Scrolled');
-    this.page = this.page + 1;
-    this.loadAll(this.page);
   }
 }

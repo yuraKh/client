@@ -11,7 +11,7 @@ export class AuthenticationService {
             .pipe(map((res: any) => {
                 // login successful if there's a jwt token in the response
                 if (res && res.token) {
-                    console.log(res, res.token);
+                  // console.log(res, res.token);
                     // store username and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify({ username, token: res.token }));
                 }
@@ -22,7 +22,7 @@ export class AuthenticationService {
     signup(username: string, password: string, email: string) {
         return this.http.post<any>('/api/auth/signup', { username: username, password: password, email: email })
         .pipe(map((res: any) => {
-            console.log(res);
+          // console.log(res);
         }));
     }
     logout() {

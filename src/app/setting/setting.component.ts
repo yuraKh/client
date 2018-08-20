@@ -10,11 +10,11 @@ import {AuthenticationService} from '../_services';
 })
 export class SettingComponent implements OnInit {
 
-  private selectedOption: string;
+  selectedOption: string;
 
-  private maxLimit: number;
-  private minLimit: number;
-  private cardLimit: number;
+  maxLimit: number;
+  minLimit: number;
+  cardLimit: number;
   message: string;
   maxLimitSuccess = false;
 

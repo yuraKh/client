@@ -14,15 +14,12 @@ import {FormControl} from '@angular/forms';
 })
 export class LogsComponent implements OnInit {
 
-  userId: number;
-  uzer: User;
+  user: User;
   users: User[] = [];
   smsLogs: SmsLog[] = [];
   acquiringLogs: AcquiringLog[] = [];
   showSmsLogs = false;
   showAcquiringLogs = false;
-  userDetail = 'none';
-  username;
 
   results: any[] = [];
   queryField: FormControl = new FormControl();
@@ -36,17 +33,20 @@ export class LogsComponent implements OnInit {
     this.queryField.valueChanges
       .subscribe( queryField  => {
         if (queryField.length >= 3) {
+          console.log(queryField);
           this.userService.searchUser(queryField).subscribe(response => this.results = response);
+        } else {
+          this.init();
         }
       });
   }
 
   init() {
+    this.results = [];
     this.smsLogs = [];
     this.acquiringLogs = [];
     this.showAcquiringLogs = false;
     this.showSmsLogs = false;
-    this.userId = null;
   }
   isAuthenticated() {
     return this.authenticationService.isAuthenticated();
@@ -55,8 +55,7 @@ export class LogsComponent implements OnInit {
   getSmsLogs() {
     this.showAcquiringLogs = false;
     this.showSmsLogs = true;
-    this.closeModalDialog();
-    this.logService.getSmsLogs(this.userId).subscribe(data => {
+    this.logService.getSmsLogs(this.user.id).subscribe(data => {
       this.smsLogs = data;
     });
   }
@@ -64,37 +63,19 @@ export class LogsComponent implements OnInit {
   getAcquiringLogs() {
     this.showAcquiringLogs = true;
     this.showSmsLogs = false;
-    this.closeModalDialog();
-    this.logService.getAcquiringLogs(this.userId).subscribe(data => {
+    this.logService.getAcquiringLogs(this.user.id).subscribe(data => {
       this.acquiringLogs = data;
     });
   }
 
-  openModalDialog() {
-    this.userService.searchUser(this.username).subscribe(data => {
-      this.users = data;
-      this.userDetail = 'block';
-    });
-  }
-
-  closeModalDialog() {
-    this.userDetail = 'none';
-    this.username = null;
-  }
 
   selectUser(user: User) {
-    this.userId = user.id;
-    this.uzer = user;
-    this.results = null;
-    this.queryField.reset();
+    console.log(user);
+    this.user = user;
+    this.results = [];
+    this.queryField.setValue('');
     this.smsLogs = [];
     this.acquiringLogs = [];
   }
 
-  search() {
-    this.userService.getAll(0).subscribe(data => {
-      this.users = data;
-      this.openModalDialog();
-    });
-  }
 }

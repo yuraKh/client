@@ -2,6 +2,7 @@
 <div class="container" [ngSwitch]="isAuthenticated()">
     <div *ngSwitchCase="true">
         <h2>Основные параметры</h2>
+      <p></p>
 
         <div *ngIf="maxLimitSuccess" class="alert alert-success col-sm-6">
             <a (click)="hide()" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{message}}
@@ -20,20 +21,21 @@
 
         <div class="row">
             <label class="col-sm-5">макс. значение общей сумы платежа</label>
-            <input [(ngModel)]="maxLimit" type="number" min="0" class="marg" class="col-sm-2">
+          <input [(ngModel)]="maxLimit" type="number" min="0" class="col-sm-2 marg">
+          <input [(ngModel)]="maxLimit" type="number" min="0" class="col-sm-2 marg">
             <button [disabled]="!maxLimit" type="button" class="btn btn-primary btn-sm marg" (click)="setMaxLimit()">Сохранить</button>
         </div>
         <p></p>
 
         <div class="row">
             <label class="col-sm-5">мин. значение общей сумы платежа</label>
-            <input [(ngModel)]="minLimit" type="number" min="0" class="marg" class="col-sm-2">
+          <input [(ngModel)]="minLimit" type="number" min="0" class="col-sm-2 marg">
             <button [disabled]="!minLimit" type="button" class="btn btn-primary btn-sm marg" (click)="setMinLimit()">Сохранить</button>
         </div>
         <p></p>
         <div class="row">
             <label class="col-sm-5">мин. сума платежа с банковской карты</label>
-            <input [(ngModel)]="cardLimit" type="number" min="0" class="marg" class="col-sm-2">
+          <input [(ngModel)]="cardLimit" type="number" min="0" class="col-sm-2 marg">
             <button [disabled]="!cardLimit" type="button" class="btn btn-primary btn-sm marg" (click)="setCardLimit()">Сохранить</button>
         </div>
 
@@ -50,7 +52,7 @@
         </option>
     </select>
             </div>
-            <input [(ngModel)]="interestRate" type="number" min="0" class="marg" class="col-sm-2">
+          <input [(ngModel)]="interestRate" type="number" min="0" class="col-sm-2 marg">
             <button [disabled]="!interestRate||!selectedService" type="button" class="btn btn-primary btn-sm marg" (click)="saveInterestRate()">Сохранить</button>
         </div>
         <p></p>

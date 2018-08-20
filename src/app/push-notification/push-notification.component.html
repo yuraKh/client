@@ -25,12 +25,35 @@
     {{o.name}}
   </option>
 </select>
-            <button [hidden]="hideSelectUser" type="button" style="margin-left: 15px" class="btn btn-primary btn-sm" (click)="openModalDialog()">Выбрать</button>
+          <!--
+                      <button [hidden]="hideSelectUser" type="button" style="margin-left: 15px" class="btn btn-primary btn-sm" (click)="openModalDialog()">Выбрать</button>
+          -->
 
             <button [disabled]="!selectedOption||!title||!message" type="button" style="margin-left: 15px" class="btn btn-primary btn-sm" (click)="send()">Отправить</button>
         </div>
+
+      <label></label>
+
+      <section [hidden]="hideSelectUser" class="filter-wrapper col-sm-10">
+        <div class="keyword-wrapper">
+          <input class="col-sm-10" [formControl]="queryField" id="keyword" type="text" autofocus
+                 placeholder="Введите имя либо почту пользователя"/>
+        </div>
+        <ul class="filter-select" style="margin-left: 0; padding-left: 0;">
+          <li *ngFor="let user of results" style="list-style-type: none" class="filter-select-list">
+            <a (click)="selectUser(user)">
+              <p>
+                <span class="artist-name">{{user.fio||user.email||user.phone}}</span></p>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+
     </div>
-    <div class="col col-sm-6">
+
+
+  <div class="col col-sm-6">
         <h3>Долги</h3>
         <p></p>
         <div class="row">
@@ -50,52 +73,6 @@
         <p></p>
         <div>
             <button [disabled]="!saldo||!servId" type="button" style="margin-left: 15px" class="btn btn-primary btn-sm" (click)="sendSaldo()">Отправить</button>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':userDetail}">
-    <!-- modal-dialog -->
-    <div class="modal-dialog" role="document">
-        <!-- modal-content -->
-        <div class="modal-content">
-            <!-- modal-header -->
-            <div class="modal-header">
-                <h3>
-                    Выберите пользователя
-                </h3>
-                <button type="button" class="close" aria-label="Close" (click)="closeModalDialog()"><span aria-hidden="true">&times;</span></button>
-                <!-- <h4 class="modal-title">Login</h4> -->
-            </div>
-
-            <!-- modal-body -->
-            <div class="modal-body">
-                <div class="container" style="min-height: 400px">
-                    <div infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false" style="height: 450px; overflow-y: scroll;">
-                        <div *ngFor="let user of users">
-                            <div>
-                                <!--<a [routerLink]="['/users',user.id]">-->
-                                <a (click)="selectUser(user.id)">
-                                    <span>{{user.fio||user.email||user.phone}}</span>
-                                </a>
-                                <div class="float-right">
-                                    <span *ngIf="user.status === 'Активен'" class="hashteg badge badge-success">{{user.status}}</span>
-                                    <span *ngIf="user.status === 'Удален'" class="hashteg badge badge-danger">{{user.status}}</span>
-                                    <span *ngIf="user.status === 'Заблокирован'" class="hashteg badge badge-warning">{{user.status}}</span>
-                                    <span *ngIf="user.status === 'Сброс учетных данных'" class="hashteg badge badge-secondary">{{user.status}}</span>
-
-                                </div>
-                            </div>
-                            <hr>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- modal-footer -->
-                <div class="modal-footer">
-                </div>
-            </div>
         </div>
     </div>
 </div>
