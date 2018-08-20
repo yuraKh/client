@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SettingService} from './setting.service';
 import {Service} from './service.model';
 import {AuthenticationService} from '../_services';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-setting',
@@ -32,10 +33,14 @@ export class SettingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.settingService.getServices().subscribe(data => {
+    this.settingService.getServices().subscribe(
+      data => {
       this.serviceList = data;
-      console.log(this.serviceList);
-    });
+        // console.log(data.status);
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.status);
+      });
     this.init();
   }
 

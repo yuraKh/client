@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {Response} from '@angular/http';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +60,8 @@ export class SettingService {
   }
 
   getServices(): Observable<any> {
-    return this.http.get(this.getServicesUrl);
+    return this.http.get(this.getServicesUrl).pipe(map((res: Response) => {
+      console.log(res);
+    }));
   }
 }

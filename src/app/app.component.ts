@@ -2,7 +2,7 @@
 import {AuthenticationService} from './_services';
 
 @Component({
-    selector: 'app',
+  selector: 'app-client',
     templateUrl: 'app.component.html'
 })
 
