@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from './user.service';
 import {User} from './user.model';
 import {AuthenticationService} from '../_services';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-user',
@@ -15,6 +16,7 @@ export class UserComponent implements OnInit {
   page = 0;
 
   userDetail = 'none'; // default Variable
+  maintenanceMode = false;
 
   constructor(private userService: UserService,
               private authenticationService: AuthenticationService
@@ -29,9 +31,14 @@ export class UserComponent implements OnInit {
 
   openModalDialog(id: number) {
     this.userService.getUser(id).subscribe(data => {
-      this.u = data;
-      this.userDetail = 'block';
-    });
+        this.u = data;
+        this.userDetail = 'block';
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
+      });
   }
 
   closeModalDialog() {
@@ -39,7 +46,15 @@ export class UserComponent implements OnInit {
   }
 
   loadAll(page: number) {
-    this.userService.getAll(page).subscribe((data) => this.onSuccess(data));
+    this.userService.getAll(page).subscribe((data) => {
+        this.onSuccess(data);
+        this.maintenanceMode = false;
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
+      });
   }
 
   // @ts-ignore
@@ -64,14 +79,24 @@ export class UserComponent implements OnInit {
   resetPassword(id: number) {
     // const admin = this.admins.find(x => x.email == email);
     this.userService.resetPassword(id).subscribe(data => {
-      this.ngOnInit();
-    });
+        this.ngOnInit();
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
+      });
   }
 
   blockUser(id: number) {
     this.userService.blockUser(id).subscribe(data => {
-      this.ngOnInit();
-    });
+        this.ngOnInit();
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
+      });
   }
 
   isAuthenticated() {

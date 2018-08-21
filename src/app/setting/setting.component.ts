@@ -23,6 +23,8 @@ export class SettingComponent implements OnInit {
   selectedService: string;
   interestRate: number;
 
+  maintenanceMode = false;
+
   options = [
     {name: 'Обычный режим', value: 1},
     {name: 'Режим обслуживания', value: 2}
@@ -36,12 +38,14 @@ export class SettingComponent implements OnInit {
     this.settingService.getServices().subscribe(
       data => {
       this.serviceList = data;
+        this.init();
         // console.log(data.status);
       },
       (error: HttpErrorResponse) => {
-        console.log(error.status);
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
       });
-    this.init();
   }
 
   init() {
@@ -56,12 +60,14 @@ export class SettingComponent implements OnInit {
       data => {
         this.maxLimitSuccess = true;
         this.message = 'Режим работы изменен на: ' + this.selectedOption;
-        // this.ngOnInit();
+        this.maintenanceMode = false;
+        this.ngOnInit();
       },
-      error => {
-        console.log(error.error.message);
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
       });
-    console.log(o.value);
   }
 
   setMaxLimit() {
@@ -71,6 +77,11 @@ export class SettingComponent implements OnInit {
         this.message = 'Максимальное значение общей сумы платежа успешно изменено';
         console.log(data);
         this.ngOnInit();
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
       });
   }
 
@@ -84,6 +95,11 @@ export class SettingComponent implements OnInit {
         this.maxLimitSuccess = true;
         this.message = 'Минимальное значение общей сумы платежа успешно изменено';
         console.log(data);
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
       });
   }
 
@@ -93,6 +109,11 @@ export class SettingComponent implements OnInit {
         this.maxLimitSuccess = true;
         this.message = 'Минимальная сума платежа с банковской карты успешно изменено';
         console.log(data);
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
       });
   }
 
@@ -103,6 +124,11 @@ export class SettingComponent implements OnInit {
         this.maxLimitSuccess = true;
         this.message = 'Процентная ставка для услуги ' + this.selectedService + ' успешно изменено';
         console.log(data);
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
       });
   }
 
@@ -126,8 +152,13 @@ export class SettingComponent implements OnInit {
     });
     console.log(id);
     this.settingService.getInterestRate(id).subscribe(data => {
-      this.interestRate = data.value;
-    });
+        this.interestRate = data.value;
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
+      });
   }
 
   isAuthenticated() {

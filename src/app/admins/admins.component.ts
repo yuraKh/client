@@ -3,6 +3,7 @@ import {AdminsService} from './admins.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Admin} from './admins.model';
 import {AuthenticationService} from '../_services';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-admins',
@@ -16,6 +17,8 @@ export class AdminsComponent implements OnInit {
   isShowing = false;
   submitted = false;
   error = '';
+
+  maintenanceMode = false;
 
   constructor(private adminsService: AdminsService,
               private formBuilder: FormBuilder,
@@ -38,7 +41,15 @@ export class AdminsComponent implements OnInit {
   }
 
   loadAll(page: number) {
-    this.adminsService.getAll(page).subscribe((data) => this.onSuccess(data));
+    this.adminsService.getAll(page).subscribe(data => {
+        this.onSuccess(data);
+        this.maintenanceMode = false;
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
+      });
   }
 
   // @ts-ignore
@@ -67,14 +78,24 @@ export class AdminsComponent implements OnInit {
   deleteAdmin(id: number) {
     // const admin = this.admins.find(x => x.email == email);
     this.adminsService.deleteAdmin(id).subscribe(data => {
-      this.ngOnInit();
-    });
+        this.ngOnInit();
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
+      });
   }
 
   blockAdmin(id: number) {
     this.adminsService.blockAdmin(id).subscribe(data => {
-      this.ngOnInit();
-    });
+        this.ngOnInit();
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
+      });
   }
 
   saveAdmin() {
@@ -87,9 +108,12 @@ export class AdminsComponent implements OnInit {
         this.isShowing = false;
         this.ngOnInit();
       },
-      error => {
-        console.log(error);
-        this.error = error.error.message;
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        } else {
+          this.error = error.error.message;
+        }
       });
   }
 

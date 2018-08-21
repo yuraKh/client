@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NewsService} from './news.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-news',
@@ -13,6 +14,8 @@ export class NewsComponent implements OnInit {
   success = false;
   message: string;
   errors = false;
+
+  maintenanceMode = false;
 
   constructor(private newsService: NewsService) {
   }
@@ -44,9 +47,13 @@ export class NewsComponent implements OnInit {
         this.title = null;
         this.file = null;
       },
-      error => {
-        this.message = error.error.message;
-        this.errors = true;
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        } else {
+          this.message = error.error.message;
+          this.errors = true;
+        }
       });
   }
 }

@@ -1,4 +1,9 @@
 <p></p>
+<div *ngIf="maintenanceMode" class="alert alert-danger col-sm-6">
+  <span><h1>Сервер находится в режиме обслуживания</h1></span>
+</div>
+
+
 <h3>Новости</h3>
 <label class="control-label"></label>
 <div *ngIf="success" class="alert alert-success col-sm-6">

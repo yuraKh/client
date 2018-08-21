@@ -50,7 +50,6 @@ import {LogsComponent} from './logs/logs.component';
         PushNotificationComponent ,
         NewsComponent ,
         LogsComponent
-
     ],
     providers: [
         AuthGuard,

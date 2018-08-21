@@ -6,6 +6,7 @@ import {AcquiringLog} from './acquiring-log.model';
 import {LogsService} from './logs.service';
 import {UserService} from '../user/user.service';
 import {FormControl} from '@angular/forms';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-logs',
@@ -23,6 +24,7 @@ export class LogsComponent implements OnInit {
 
   results: any[] = [];
   queryField: FormControl = new FormControl();
+  maintenanceMode = false;
 
   constructor(private authenticationService: AuthenticationService,
               private logService: LogsService,
@@ -31,10 +33,18 @@ export class LogsComponent implements OnInit {
 
   ngOnInit() {
     this.queryField.valueChanges
-      .subscribe( queryField  => {
+      .subscribe(queryField => {
         if (queryField.length >= 3) {
           console.log(queryField);
-          this.userService.searchUser(queryField).subscribe(response => this.results = response);
+          this.userService.searchUser(queryField).subscribe(response => {
+              this.results = response;
+            },
+            (error: HttpErrorResponse) => {
+              if (error.status === 503) {
+                this.maintenanceMode = true;
+              }
+            });
+          this.maintenanceMode = false;
         } else {
           this.init();
         }
@@ -48,6 +58,7 @@ export class LogsComponent implements OnInit {
     this.showAcquiringLogs = false;
     this.showSmsLogs = false;
   }
+
   isAuthenticated() {
     return this.authenticationService.isAuthenticated();
   }
@@ -56,16 +67,28 @@ export class LogsComponent implements OnInit {
     this.showAcquiringLogs = false;
     this.showSmsLogs = true;
     this.logService.getSmsLogs(this.user.id).subscribe(data => {
-      this.smsLogs = data;
-    });
+        this.smsLogs = data;
+        this.maintenanceMode = false;
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
+      });
   }
 
   getAcquiringLogs() {
     this.showAcquiringLogs = true;
     this.showSmsLogs = false;
     this.logService.getAcquiringLogs(this.user.id).subscribe(data => {
-      this.acquiringLogs = data;
-    });
+        this.acquiringLogs = data;
+        this.maintenanceMode = false;
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 503) {
+          this.maintenanceMode = true;
+        }
+      });
   }
 
 
@@ -77,5 +100,4 @@ export class LogsComponent implements OnInit {
     this.smsLogs = [];
     this.acquiringLogs = [];
   }
-
 }

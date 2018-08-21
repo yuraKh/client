@@ -1,4 +1,9 @@
 <p></p>
+
+<div *ngIf="maintenanceMode" class="alert alert-danger col-sm-6">
+  <span><h1>Сервер находится в режиме обслуживания</h1></span>
+</div>
+
 <div class="container" [ngSwitch]="isAuthenticated()">
     <div *ngSwitchCase="true">
         <h2>Основные параметры</h2>

@@ -1,5 +1,9 @@
 <p>
 </p>
+<div *ngIf="maintenanceMode" class="alert alert-danger col-sm-6">
+  <span><h1>Сервер находится в режиме обслуживания</h1></span>
+</div>
+
 <div *ngIf="success" class="alert alert-success col-sm-6">
     <a (click)="hide()" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{successMes}}
 </div>
