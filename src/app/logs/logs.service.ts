@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 })
 export class LogsService {
 
-  private logUrl = '/api/v1/admins/users';
+  private logUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/users';
 
   constructor(private http: HttpClient) { }
 

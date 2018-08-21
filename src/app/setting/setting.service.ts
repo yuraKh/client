@@ -9,14 +9,14 @@ import {Response} from '@angular/http';
 })
 export class SettingService {
 
-  private modeUrl = '/api/v1/admins/workmode';
-  private maxLimitUrl = '/api/v1/admins/limits/max';
-  private minLimitUrl = '/api/v1/admins/limits/min';
-  private cardLimitUrl = '/api/v1/admins/limits/card';
-  private interestRateUrl = '/api/v1/admins/services';
-  private getServicesUrl = '/api/v1/services';
+  private modeUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/workmode';
+  private maxLimitUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/limits/max';
+  private minLimitUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/limits/min';
+  private cardLimitUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/limits/card';
+  private interestRateUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/services';
+  private getServicesUrl = 'https://s4.rprc05.ru:8036/api/v1/services';
 
-  private getLimitsUrl = '/api/v1/payments/limits';
+  private getLimitsUrl = 'https://s4.rprc05.ru:8036/api/v1/payments/limits';
 
   constructor(private http: HttpClient) {
   }

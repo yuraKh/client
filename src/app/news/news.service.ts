@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 })
 export class NewsService {
 
-  private newsUrl = '/api/v1/admins/news';
+  private newsUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/news';
 
   constructor(private http: HttpClient) { }
 

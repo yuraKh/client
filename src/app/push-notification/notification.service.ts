@@ -8,9 +8,9 @@ import {Message} from './message.model';
 })
 export class NotificationService {
 
-  private pushUserUrl = '/api/v1/admins/push/individual/users';
-  private pushAllUrl = '/api/v1/admins/push/administration';
-  private arearsUrl = '/api/v1/admins/push/arrears/services';
+  private pushUserUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/push/individual/users';
+  private pushAllUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/push/administration';
+  private arearsUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/push/arrears/services';
 
   constructor(private http: HttpClient) { }
 

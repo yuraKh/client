@@ -8,10 +8,10 @@ import {map} from 'rxjs/operators';
 })
 export class AdminsService {
 
-  private getAdminsUrl = '/api/v1/admins';
-  private createAdminUrl = '/api/v1/admins';
-  private deleteUrl = '/api/v1/admins';
-  private blockUrl = '/api/v1/admins';
+  private getAdminsUrl = 'https://s4.rprc05.ru:8036/api/v1/admins';
+  private createAdminUrl = 'https://s4.rprc05.ru:8036/api/v1/admins';
+  private deleteUrl = 'https://s4.rprc05.ru:8036/api/v1/admins';
+  private blockUrl = 'https://s4.rprc05.ru:8036/api/v1/admins';
 
   constructor(private http: HttpClient) { }
 
