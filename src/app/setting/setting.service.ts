@@ -60,7 +60,6 @@ export class SettingService {
   }
 
   getServices(): Observable<any> {
-    return this.http.get(this.getServicesUrl).pipe(map((res: Response) => {
-    }));
+    return this.http.get(this.getServicesUrl);
   }
 }
