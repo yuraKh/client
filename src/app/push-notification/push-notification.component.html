@@ -1,28 +1,35 @@
-<p>
-</p>
-<div *ngIf="maintenanceMode" class="alert alert-danger col-sm-6">
-  <span><h1>Сервер находится в режиме обслуживания</h1></span>
-</div>
 
-<div *ngIf="success" class="alert alert-success col-sm-6">
+
+<div  class="row push-wrap">
+  <div *ngIf="success" class="alert alert-success col-sm-12">
     <a (click)="hide()" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{successMes}}
-</div>
-<div *ngIf="error" class="alert alert-danger col-sm-6">
+  </div>
+  <div *ngIf="error" class="alert alert-danger col-sm-12">
     <a (click)="hideE()" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{errors}}
-</div>
-<div class="row">
+  </div>
     <div class="col col-sm-6">
         <h3>Информационные сообщения</h3>
-        <p></p>
         <div class="row">
             <textarea [(ngModel)]="title" placeholder="Оглавление" type="text" class="col-sm-10" maxlength="80"></textarea>
         </div>
-        <p></p>
-        <div class="row">
+
+        <div class="row push-message ">
             <textarea [(ngModel)]="message" placeholder="Сообщение" type="text" maxlength="300" class="col-sm-10" rows="5"></textarea>
         </div>
-        <p></p>
-        <div class="row col-sm-10">
+
+      <label>
+        <div *ngIf="selectedOption&&user&&!hideSelectUser" class="alert alert-info col-sm-10">
+          <span>Сообщение будет отправлено пользователю {{user.fio||user.email||user.phone}}</span>
+
+        </div>
+
+        <div *ngIf="selectedOption&&hideSelectUser" class="alert alert-info col-sm-10">
+
+        <span > Сообщение будет отправлено всем пользователям</span>
+        </div>
+      </label>
+
+        <div class="row push-mode col-sm-10">
             <select [(ngModel)]="selectedOption" name="mode" (change)="onChange($event.target.value)">
   <option [ngValue]="undefined" disabled  selected> Кому отправить </option>
   <option *ngFor="let o of options">
@@ -33,21 +40,24 @@
                       <button [hidden]="hideSelectUser" type="button" style="margin-left: 15px" class="btn btn-primary btn-sm" (click)="openModalDialog()">Выбрать</button>
           -->
 
-            <button [disabled]="!selectedOption||!title||!message" type="button" style="margin-left: 15px" class="btn btn-primary btn-sm" (click)="send()">Отправить</button>
+            <button [disabled]="!selectedOption||!title||!message" type="button" class="btn btn-primary btn-sm" (click)="send()">Отправить</button>
         </div>
 
       <label></label>
 
-      <section [hidden]="hideSelectUser" class="filter-wrapper col-sm-10">
+      <section [hidden]="hideSelectUser" class="filter-wrapper ">
         <div class="keyword-wrapper">
-          <input class="col-sm-10" [formControl]="queryField" id="keyword" type="text" autofocus
+          <input class="col-sm-10" [formControl]="queryField" id="keyword" type="search" autofocus
                  placeholder="Введите имя либо почту пользователя"/>
         </div>
+        <p id="userSearch"></p>
         <ul class="filter-select" style="margin-left: 0; padding-left: 0;">
           <li *ngFor="let user of results" style="list-style-type: none" class="filter-select-list">
             <a (click)="selectUser(user)">
               <p>
-                <span class="artist-name">{{user.fio||user.email||user.phone}}</span></p>
+                <span class="artist-name">{{user.fio||user.email||user.phone}}</span>
+              </p>
+
             </a>
           </li>
         </ul>
@@ -57,12 +67,12 @@
     </div>
 
 
-  <div class="col col-sm-6">
+  <div class="debts col col-sm-6">
         <h3>Долги</h3>
-        <p></p>
+
         <div class="row">
-            <div class="col-sm-10">
-              <select name="service" (change)="getService($event.target.value)">
+            <div class="col  ">
+              <select class="services col-sm-10" name="service" (change)="getService($event.target.value)">
           <option [ngValue]="undefined" disabled  selected> Название услуги </option>
           <option *ngFor="let s of serviceList">
             {{s.name}}
@@ -70,13 +80,13 @@
         </select>
             </div>
         </div>
-        <p></p>
-        <div>
-            <input [(ngModel)]="saldo" placeholder="сума" type="number" min="0" max="99999.99" class="col-sm-10">
+
+        <div class="push-summ">
+            <input [(ngModel)]="saldo" placeholder="сума" type="number" min="0" max="99999.99" class="col-sm-10 ">
         </div>
-        <p></p>
+
         <div>
-            <button [disabled]="!saldo||!servId" type="button" style="margin-left: 15px" class="btn btn-primary btn-sm" (click)="sendSaldo()">Отправить</button>
+            <button [disabled]="!saldo||!servId" type="button" class="btn btn-primary btn-sm" (click)="sendSaldo()">Отправить</button>
         </div>
     </div>
 </div>

@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  font-family: 'Kerola', Arial, Helvetica, sans-serif;
+}
+
+.admin-panel {
+  height: 91vh;
+  margin: 0;
+  padding: 1rem 0 0 1rem;
+}
+.container {
+  margin: 0;
+  padding: 0;
+}

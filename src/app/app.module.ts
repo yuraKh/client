@@ -15,7 +15,6 @@ import {LoginComponent} from './login';
 import {AdminsComponent} from './admins/admins.component';
 import {AdminsService} from './admins/admins.service';
 import {NavbarComponent} from './navbar/navbar.component';
-import {SignupComponent} from './signup/signup.component';
 import {MenuComponent} from './menu/menu.component';
 import {SettingComponent} from './setting/setting.component';
 import {UserComponent} from './user/user.component';
@@ -25,6 +24,8 @@ import {AccountComponent} from './account/account.component';
 import {PushNotificationComponent} from './push-notification/push-notification.component';
 import {NewsComponent} from './news/news.component';
 import {LogsComponent} from './logs/logs.component';
+import {NgHttpLoaderModule} from 'ng-http-loader';
+import {ModeComponent} from './mode/mode.component';
 
 @NgModule({
     imports: [
@@ -33,6 +34,7 @@ import {LogsComponent} from './logs/logs.component';
         HttpClientModule,
         FormsModule,
         InfiniteScrollModule,
+      NgHttpLoaderModule,
         routing
     ],
     declarations: [
@@ -41,7 +43,6 @@ import {LogsComponent} from './logs/logs.component';
         LoginComponent,
         AdminsComponent ,
         NavbarComponent ,
-        SignupComponent,
         MenuComponent,
         SettingComponent,
         UserComponent,
@@ -49,7 +50,8 @@ import {LogsComponent} from './logs/logs.component';
         AccountComponent ,
         PushNotificationComponent ,
         NewsComponent ,
-        LogsComponent
+        LogsComponent,
+        ModeComponent
     ],
     providers: [
         AuthGuard,

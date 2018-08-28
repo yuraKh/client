@@ -2,7 +2,13 @@
     margin: 1px;
 }
 
-
 .posts {
     margin: 10px;
+}
+.user-wrap {
+  padding-top: 2rem;
+  margin: 0 auto;
+}
+.user-title {
+  margin-bottom: 2rem;
 }

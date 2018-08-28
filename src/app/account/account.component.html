@@ -1,8 +1,4 @@
 <p></p>
-<div *ngIf="maintenanceMode" class="alert alert-danger col-sm-6">
-  <span><h1>Сервер находится в режиме обслуживания</h1></span>
-</div>
-
 <div [ngSwitch]="isAuthenticated()">
   <h2 style="text-align: center">Операции: <span *ngIf="user">{{user.fio||user.email||user.phone}}</span>
     <span *ngIf="accounts?.length === 0"> не найдено</span>

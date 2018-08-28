@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from './user.service';
 import {User} from './user.model';
 import {AuthenticationService} from '../_services';
-import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-user',
@@ -15,12 +14,13 @@ export class UserComponent implements OnInit {
   u: User = new User();
   page = 0;
 
-  userDetail = 'none'; // default Variable
-  maintenanceMode = false;
+  userDetail = 'none';
+
+
+  // default Variable
 
   constructor(private userService: UserService,
-              private authenticationService: AuthenticationService
-  ) {
+              private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -31,14 +31,9 @@ export class UserComponent implements OnInit {
 
   openModalDialog(id: number) {
     this.userService.getUser(id).subscribe(data => {
-        this.u = data;
-        this.userDetail = 'block';
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
-      });
+      this.u = data;
+      this.userDetail = 'block';
+    });
   }
 
   closeModalDialog() {
@@ -46,57 +41,47 @@ export class UserComponent implements OnInit {
   }
 
   loadAll(page: number) {
-    this.userService.getAll(page).subscribe((data) => {
-        this.onSuccess(data);
-        this.maintenanceMode = false;
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
-      });
+    this.userService.getAll(page).subscribe((data) => this.onSuccess(data));
   }
 
   // @ts-ignore
   onSuccess(data) {
-    console.log(data);
     if (data !== undefined) {
       // @ts-ignore
       data.forEach(item => {
-        this.users.push(new User(item));
+        if(!this.users.includes(item)) {
+          this.users.push(item);
+        }
       });
       // this.admins = data;
     }
   }
 
   onScroll() {
-    console.log('Scrolled');
     this.page = this.page + 1;
     this.loadAll(this.page);
   }
 
 
   resetPassword(id: number) {
-    // const admin = this.admins.find(x => x.email == email);
     this.userService.resetPassword(id).subscribe(data => {
-        this.ngOnInit();
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
-      });
+      this.replaceUser(id);
+    });
+  }
+
+  replaceUser(id: number) {
+    const user = this.users.find(x => x.id == id);
+    const index = this.users.indexOf(user);
+    this.userService.getAll(index/10 >> 0).subscribe(data => {
+      let update = data.find(x => x.id == id);
+      this.users[index] = update;
+    });
   }
 
   blockUser(id: number) {
     this.userService.blockUser(id).subscribe(data => {
-        this.ngOnInit();
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
-      });
+      this.replaceUser(id);
+    });
   }
 
   isAuthenticated() {

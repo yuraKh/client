@@ -3,7 +3,6 @@ import {AdminsService} from './admins.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Admin} from './admins.model';
 import {AuthenticationService} from '../_services';
-import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-admins',
@@ -17,13 +16,13 @@ export class AdminsComponent implements OnInit {
   isShowing = false;
   submitted = false;
   error = '';
+  private last: boolean;
 
-  maintenanceMode = false;
+
 
   constructor(private adminsService: AdminsService,
               private formBuilder: FormBuilder,
-              private authenticationService: AuthenticationService
-  ) {
+              private authenticationService: AuthenticationService) {
   }
 
   get f() {
@@ -41,31 +40,28 @@ export class AdminsComponent implements OnInit {
   }
 
   loadAll(page: number) {
-    this.adminsService.getAll(page).subscribe(data => {
-        this.onSuccess(data);
-        this.maintenanceMode = false;
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
-      });
+    this.adminsService.getAll(page).subscribe((data) => {
+      if (data.length === 0) {
+        this.last = true;
+      } else {
+        this.last = false;
+      }
+      this.onSuccess(data)
+    });
   }
 
   // @ts-ignore
   onSuccess(data) {
-    console.log(data);
     if (data !== undefined) {
       // @ts-ignore
       data.forEach(item => {
-        this.admins.push(new Admin(item));
+        if(!this.admins.includes(item))
+        this.admins.push(item);
       });
-      // this.admins = data;
     }
   }
 
   onScroll() {
-    console.log('Scrolled');
     this.page = this.page + 1;
     this.loadAll(this.page);
   }
@@ -78,24 +74,23 @@ export class AdminsComponent implements OnInit {
   deleteAdmin(id: number) {
     // const admin = this.admins.find(x => x.email == email);
     this.adminsService.deleteAdmin(id).subscribe(data => {
-        this.ngOnInit();
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
-      });
+      this.replaceAdmin(id);
+    });
   }
 
   blockAdmin(id: number) {
     this.adminsService.blockAdmin(id).subscribe(data => {
-        this.ngOnInit();
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
-      });
+      this.replaceAdmin(id);
+    });
+  }
+
+  replaceAdmin(id: number) {
+    const admin = this.admins.find(x => x.id == id);
+    const index = this.admins.indexOf(admin);
+    this.adminsService.getAll(index/10 >> 0).subscribe(data => {
+      let update = data.find(x => x.id == id);
+      this.admins[index] = update;
+    });
   }
 
   saveAdmin() {
@@ -106,14 +101,18 @@ export class AdminsComponent implements OnInit {
     this.adminsService.saveAdmin(this.f.email.value, this.f.password.value).subscribe(
       data => {
         this.isShowing = false;
-        this.ngOnInit();
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        } else {
-          this.error = error.error.message;
+        this.adminForm.reset();
+        this.adminForm.clearValidators();
+        this.submitted = false;
+        if(this.last) {
+          this.page = this.page - 1;
+          this.adminsService.getAll(this.page).subscribe(data => {
+              this.onSuccess(data);
+          });
         }
+      },
+      error => {
+        this.error = error.error.message;
       });
   }
 

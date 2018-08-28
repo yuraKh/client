@@ -1,9 +1,6 @@
 ﻿<p></p>
-<div *ngIf="maintenanceMode" class="alert alert-danger col-sm-6">
-  <span><h1>Сервер находится в режиме обслуживания</h1></span>
-</div>
 
-<div [ngSwitch]="isAuthenticated()">
+<div [ngSwitch]="isAuthenticated()" style="margin-top: 4rem">
     <div *ngSwitchCase="false" class="col-sm-9 offset-1">
         <h2 style="text-align: center">Войти</h2>
         <hr>

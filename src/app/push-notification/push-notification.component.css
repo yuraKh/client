@@ -1,0 +1,38 @@
+.push-wrap {
+  padding-top: 3rem;
+  padding-left: 4rem;
+}
+.push-wrap h3 {
+  padding-bottom: 1rem;
+  margin-left: -1rem;
+}
+.push-message textarea {
+  margin: 1rem 0;
+}
+.push-mode {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+}
+.push-mode select {
+  padding: 0 5px;
+  width: 15rem;
+}
+.push-mode button {
+  margin-right: -1.3rem;
+}
+.debts h3 {
+  margin-left: 0;
+}
+.services {
+  padding: 5px;
+}
+.push-summ {
+  margin: 1rem 0;
+}
+.keyword-wrapper {
+  margin: 0;
+  padding: 0;
+}
+.keyword-wrapper input {
+}

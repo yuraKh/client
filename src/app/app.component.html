@@ -2,14 +2,22 @@
 <app-navbar></app-navbar>
 <div class="row">
 
-    <div class="col-sm-2">
+    <div class="admin-panel" style="background-color: rgba(6,6,6,0.9)">
 
         <app-menu></app-menu>
 
     </div>
     <div class="col-sm-9">
+      <ng-http-loader
+        [filteredUrlPatterns]="[]"
+        [backgroundColor]="'#ff0000'"
+        [spinner]="spinkit.skWave"
+        [debounceDelay]="200"
+        [minDuration]="300">
+      </ng-http-loader>
 
-      <router-outlet>
-      </router-outlet>
+      <app-mode></app-mode>
+
+      <router-outlet></router-outlet>
     </div>
 </div>

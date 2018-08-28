@@ -1,20 +1,16 @@
 <p></p>
 
-<div *ngIf="maintenanceMode" class="alert alert-danger col-sm-6">
-  <span><h1>Сервер находится в режиме обслуживания</h1></span>
-</div>
-
-<div class="container" [ngSwitch]="isAuthenticated()">
+<div class="container setting-wrap" [ngSwitch]="isAuthenticated()">
     <div *ngSwitchCase="true">
         <h2>Основные параметры</h2>
       <p></p>
 
-        <div *ngIf="maxLimitSuccess" class="alert alert-success col-sm-6">
+        <div *ngIf="onSuccess" class="alert alert-success col-sm-6">
             <a (click)="hide()" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{message}}
         </div>
 
-        <select [(ngModel)]="selectedOption" name="mode">
-    <option [ngValue]="undefined" disabled  selected> Режим работы </option>
+        <select  class="mode" [(ngModel)]="selectedOption" name="mode">
+    <option  [ngValue]="undefined" disabled  selected> Режим работы </option>
     <option *ngFor="let o of options">
         {{o.name}}
     </option>
@@ -49,7 +45,7 @@
         <p></p>
         <div class="row">
             <div class="col-sm-5">
-                <select [(ngModel)]="selectedService" name="service" (change)="getInterestRate($event.target.value)">
+                <select class="mode" [(ngModel)]="selectedService" name="service" (change)="getInterestRate($event.target.value)">
         <option [ngValue]="undefined" disabled  selected> Название услуги </option>
         <option *ngFor="let s of serviceList">
             {{s.name}}

@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {Response} from '@angular/http';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +15,18 @@ export class SettingService {
   private getServicesUrl = 'https://s4.rprc05.ru:8036/api/v1/services';
 
   private getLimitsUrl = 'https://s4.rprc05.ru:8036/api/v1/payments/limits';
+  private getWorkModeUrl = 'https://s4.rprc05.ru:8036/api/v1/admins/workmode';
 
   constructor(private http: HttpClient) {
   }
 
-  setMode(id: number): Observable<any> {
-    return this.http.put(`${this.modeUrl}/{mode}?mode=${id}`, {
-      'message': 'string'
-    });
+  getWorkMode(): Observable<any> {
+    return this.http.get(this.getWorkModeUrl);
+  }
+
+  setMode(id: number, message: string): Observable<any> {
+
+    return this.http.put(`${this.modeUrl}/{mode}?mode=${id}`, new Body(message));
   }
 
   setMaxLimit(limit: number): Observable<any> {
@@ -61,5 +63,15 @@ export class SettingService {
 
   getServices(): Observable<any> {
     return this.http.get(this.getServicesUrl);
+  }
+
+}
+
+export class Body {
+
+  message: string;
+
+  constructor(message: string) {
+    this.message = message;
   }
 }

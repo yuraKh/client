@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SettingService} from './setting.service';
 import {Service} from './service.model';
 import {AuthenticationService} from '../_services';
-import {HttpErrorResponse} from '@angular/common/http';
+import {CommonService} from "../_services/common.service";
 
 @Component({
   selector: 'app-setting',
@@ -17,13 +17,12 @@ export class SettingComponent implements OnInit {
   minLimit: number;
   cardLimit: number;
   message: string;
-  maxLimitSuccess = false;
-
+  onSuccess = false;
   serviceList: Service[] = [];
   selectedService: string;
   interestRate: number;
 
-  maintenanceMode = false;
+
 
   options = [
     {name: 'Обычный режим', value: 1},
@@ -31,22 +30,24 @@ export class SettingComponent implements OnInit {
   ];
 
   constructor(private settingService: SettingService,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private commonService: CommonService) {
   }
 
   ngOnInit() {
-    this.settingService.getServices().subscribe(
-      data => {
+    this.settingService.getWorkMode().subscribe(mode => {
+      if (mode.id === 2) {
+        this.commonService.updateListFn(true);
+      } else {
+        this.commonService.updateListFn(false);
+      }
+    });
+    this.settingService.getServices().subscribe(data => {
       this.serviceList = data;
-        this.init();
-        // console.log(data.status);
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
-      });
+    });
+    this.init();
   }
+
 
   init() {
     this.settingService.getMaxLimit().subscribe((data) => this.maxLimit = data.value);
@@ -56,64 +57,47 @@ export class SettingComponent implements OnInit {
 
   setMode() {
     const o = this.options.find(x => x.name === this.selectedOption);
-    this.settingService.setMode(o.value).subscribe(
-      data => {
-        this.maxLimitSuccess = true;
+    if (o.value === 1) {
+      this.settingService.setMode(o.value, 'Сервис в режиме обслуживания').subscribe(data => {
+        this.onSuccess = true;
         this.message = 'Режим работы изменен на: ' + this.selectedOption;
-        this.maintenanceMode = false;
-        this.ngOnInit();
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
+        this.commonService.updateListFn(false);
       });
+    } else {
+      this.settingService.setMode(o.value, 'Сервис активен').subscribe(data => {
+        this.onSuccess = true;
+        this.message = 'Режим работы изменен на: ' + this.selectedOption;
+        this.commonService.updateListFn(true);
+      });
+    }
   }
 
   setMaxLimit() {
     this.settingService.setMaxLimit(this.maxLimit).subscribe(
       data => {
-        this.maxLimitSuccess = true;
+        this.onSuccess = true;
         this.message = 'Максимальное значение общей сумы платежа успешно изменено';
-        console.log(data);
         this.ngOnInit();
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
       });
   }
 
   hide() {
-    this.maxLimitSuccess = false;
+    this.onSuccess = false;
   }
 
   setMinLimit() {
     this.settingService.setMinLimit(this.minLimit).subscribe(
       data => {
-        this.maxLimitSuccess = true;
+        this.onSuccess = true;
         this.message = 'Минимальное значение общей сумы платежа успешно изменено';
-        console.log(data);
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
       });
   }
 
   setCardLimit() {
     this.settingService.setCardLimit(this.cardLimit).subscribe(
       data => {
-        this.maxLimitSuccess = true;
+        this.onSuccess = true;
         this.message = 'Минимальная сума платежа с банковской карты успешно изменено';
-        console.log(data);
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
       });
   }
 
@@ -121,14 +105,8 @@ export class SettingComponent implements OnInit {
     const o = this.serviceList.find(x => x.name === this.selectedService);
     this.settingService.setInterestRate(o.id, this.interestRate).subscribe(
       data => {
-        this.maxLimitSuccess = true;
+        this.onSuccess = true;
         this.message = 'Процентная ставка для услуги ' + this.selectedService + ' успешно изменено';
-        console.log(data);
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
       });
   }
 
@@ -150,15 +128,9 @@ export class SettingComponent implements OnInit {
           break;
       }
     });
-    console.log(id);
     this.settingService.getInterestRate(id).subscribe(data => {
-        this.interestRate = data.value;
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
-      });
+      this.interestRate = data.value;
+    });
   }
 
   isAuthenticated() {

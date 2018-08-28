@@ -1,3 +1,10 @@
 .marg{
     margin-left: 50px;
 }
+.setting-wrap {
+margin: 0 auto;
+  padding-top: 2rem;
+}
+.mode {
+  padding: 6px;
+}

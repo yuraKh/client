@@ -1,0 +1,15 @@
+.news-wrap {
+  padding-left: 4rem;
+  padding-top: 3rem;
+}
+.controls button {
+  background-color: rgb(0, 123, 255);
+  margin-left: -1rem;
+}
+.news-text {
+  height: 7rem;
+  margin: 1rem 0;
+}
+.news-wrap h3 {
+  margin-left: -1rem;
+}

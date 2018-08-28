@@ -30,7 +30,6 @@ export class AdminsService {
   saveAdmin(email: string, password: string) {
     return this.http.post(this.createAdminUrl, {email: email, password: password})
     .pipe(map((res: any) => {
-      console.log(res);
   }));
   }
 }

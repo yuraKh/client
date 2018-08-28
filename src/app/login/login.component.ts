@@ -4,7 +4,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {first} from 'rxjs/operators';
 
 import {AuthenticationService} from '../_services';
-import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({templateUrl: 'login.component.html'})
 export class LoginComponent implements OnInit {
@@ -13,8 +12,6 @@ export class LoginComponent implements OnInit {
   submitted = false;
   error = '';
   currentUser: any;
-
-  maintenanceMode = false;
 
 
   constructor(
@@ -51,19 +48,14 @@ export class LoginComponent implements OnInit {
         () => {
           this.router.navigate(['/setting']);
         },
-        (error: HttpErrorResponse) => {
-          if (error.status === 503) {
-            this.maintenanceMode = true;
-          } else {
-            this.error = error.error.message;
-            this.loading = false;
-          }
+        error => {
+          this.error = error.error.message;
+          this.loading = false;
         });
   }
 
   isAuthenticated() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    console.log(this.currentUser);
     return this.authenticationService.isAuthenticated();
   }
 }

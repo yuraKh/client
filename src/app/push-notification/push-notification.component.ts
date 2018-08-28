@@ -6,7 +6,6 @@ import {User} from '../user/user.model';
 import {Service} from '../setting/service.model';
 import {SettingService} from '../setting/setting.service';
 import {FormControl} from '@angular/forms';
-import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-push-notification',
@@ -39,7 +38,8 @@ export class PushNotificationComponent implements OnInit {
     {name: 'Всем пользователям', value: 1},
     {name: 'Пользователю по ID', value: 2}
   ];
-  maintenanceMode = false;
+
+
 
   constructor(private notificationService: NotificationService,
               private userService: UserService,
@@ -50,31 +50,27 @@ export class PushNotificationComponent implements OnInit {
     this.queryField.valueChanges
       .subscribe(queryField => {
         if (queryField.length >= 3) {
-          console.log(queryField);
-          this.userService.searchUser(queryField).subscribe(response => {
-            this.results = response;
-          }, (error: HttpErrorResponse) => {
-            if (error.status === 503) {
-              this.maintenanceMode = true;
-            }
-          });
+          this.userService.searchUser(queryField).subscribe(response => this.results = response);
         } else {
           this.init();
         }
       });
     this.settingService.getServices().subscribe(data => {
-        this.serviceList = data;
-        this.maintenanceMode = false;
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        }
-      });
+      this.serviceList = data;
+    });
   }
 
   init() {
     this.results = [];
+  }
+
+  reset() {
+    this.title = null;
+    this.message = null;
+    this.message = null;
+    this.user = null;
+    this.hideSelectUser = false;
+    this.selectedOption = undefined;
   }
 
   selectUser(user: User) {
@@ -109,17 +105,13 @@ export class PushNotificationComponent implements OnInit {
   sendSaldo() {
     this.notificationService.sendrArears(this.servId, this.saldo).subscribe(data => {
         this.saldo = 0;
+        // this.servId = 0;
         this.success = true;
         this.successMes = data.message;
-        this.maintenanceMode = false;
       },
-      (error: HttpErrorResponse) => {
-        if (error.status === 503) {
-          this.maintenanceMode = true;
-        } else {
-          this.errors = error.error.message;
-          this.error = true;
-        }
+      e => {
+        this.errors = e.error.message;
+        this.error = true;
       });
   }
 
@@ -140,36 +132,24 @@ export class PushNotificationComponent implements OnInit {
         data => {
           this.success = true;
           this.successMes = data.message;
-          this.title = null;
-          this.message = null;
-          this.maintenanceMode = false;
+          this.reset();
         },
-        (error: HttpErrorResponse) => {
-          if (error.status === 503) {
-            this.maintenanceMode = true;
-          } else {
-            this.errors = 'Не выбран пользователь';
-            this.error = true;
-          }
+        error => {
+          this.errors = 'Не выбран пользователь';
+          this.error = true;
         });
-      console.log(o.value);
     } else {
       this.notificationService.sendUser(this.user.id, this.mes).subscribe(
         data => {
           this.success = true;
           this.successMes = data.message;
-          this.title = null;
-          this.message = null;
-          this.maintenanceMode = false;
+          this.reset();
         },
-        (error: HttpErrorResponse) => {
-          if (error.status === 503) {
-            this.maintenanceMode = true;
-          } else {
-            this.errors = error.error.message;
-            this.error = true;
-          }
+        error => {
+          this.errors = error.error.message;
+          this.error = true;
         });
+
     }
   }
 }

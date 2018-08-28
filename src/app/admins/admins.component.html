@@ -1,9 +1,6 @@
 <p></p>
-<div *ngIf="maintenanceMode" class="alert alert-danger col-sm-6">
-  <span><h1>Сервер находится в режиме обслуживания</h1></span>
-</div>
 
-<div class="container" [ngSwitch]="isAuthenticated()">
+<div class="container admins-wrap" [ngSwitch]="isAuthenticated()">
     <div *ngSwitchCase="true">
 
         <h2>Администраторы</h2>
@@ -15,15 +12,11 @@
             <form [formGroup]="adminForm" (ngSubmit)="saveAdmin()" [hidden]="!isShowing" class="postform col-sm-5">
                 <div class="form-group">
                     <input placeholder="email" type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                        <div *ngIf="f.email.errors.required">Email is required</div>
-                    </div>
+
                 </div>
                 <div class="form-group">
                     <input placeholder="password" type="text" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                        <div *ngIf="f.password.errors.required">Password is required</div>
-                    </div>
+
                 </div>
                 <div class="form-group">
                     <button type="button" class="btn btn-danger btn-sm" (click)="clearForm()">Отмена</button>
