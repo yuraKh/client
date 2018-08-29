@@ -1,13 +1,13 @@
 <p></p>
-
+<div class="logs-wrap">
 <h3>Логи</h3>
-<p></p>
 <div>
   <section class="filter-wrapper">
     <div class="keyword-wrapper">
-      <input [formControl]="queryField" id="keyword" type="text" autofocus
+      <input [formControl]="queryField" id="keyword" type="search" autofocus
              placeholder="Введите имя либо почту пользователя"/>
     </div>
+    <p id="userSearch"></p>
     <ul class="filter-select" style="margin-left: 0; padding-left: 0;">
       <li *ngFor="let user of results" style="list-style-type: none" class="filter-select-list">
         <a (click)="selectUser(user)">
@@ -19,11 +19,14 @@
   </section>
 
 </div>
-<label></label>
 <div class="row">
   <div>
-    <span *ngIf="user">{{user.fio||user.email||user.phone}}</span>
-    <button [disabled]="!user" type="button" class="btn btn-info btn-sm" style="margin-left: 5px"
+    <div *ngIf="user" class="alert alert-info col-sm-10" style="margin-left: 1rem">
+      <span>Логи пользователя {{user.fio||user.email||user.phone}}</span>
+
+    </div>
+    <!--<p style="margin-left: 1rem"><span *ngIf="user">{{user.fio||user.email||user.phone}}</span></p>-->
+    <button [disabled]="!user" type="button" class="btn btn-info btn-sm" style="margin-left: 15px"
             (click)="getSmsLogs()">Логи запросов SMS
     </button>
     <button [disabled]="!user" type="button" class="btn btn-info btn-sm" style="margin-left: 5px"
@@ -78,4 +81,5 @@
       </table>
     </div>
   </div>
+</div>
 </div>

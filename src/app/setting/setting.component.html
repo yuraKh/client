@@ -22,7 +22,7 @@
 
         <div class="row">
             <label class="col-sm-5">макс. значение общей сумы платежа</label>
-          <input [(ngModel)]="maxLimit" type="number" min="0" class="col-sm-2 marg">
+          <input [(ngModel)]="maxLimit" [pattern] = "pattern" type="number" min="0" step="1" class="col-sm-2 marg">
             <button [disabled]="!maxLimit" type="button" class="btn btn-primary btn-sm marg" (click)="setMaxLimit()">Сохранить</button>
         </div>
         <p></p>
@@ -52,7 +52,7 @@
         </option>
     </select>
             </div>
-          <input [(ngModel)]="interestRate" type="number" min="0" class="col-sm-2 marg">
+          <input [(ngModel)]="interestRate" type="number" min="0" step="0.1" class="col-sm-2 marg">
             <button [disabled]="!interestRate||!selectedService" type="button" class="btn btn-primary btn-sm marg" (click)="saveInterestRate()">Сохранить</button>
         </div>
         <p></p>

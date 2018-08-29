@@ -1,8 +1,8 @@
 <p></p>
 
-<div class="container" [ngSwitch]="isAuthenticated()">
+<div class="container user-wrap" [ngSwitch]="isAuthenticated()">
     <div *ngSwitchCase="true">
-        <h2>Пользователи</h2>
+        <h2 class="user-title">Пользователи</h2>
         <p></p>
         <div>
             <div class="container" style="min-height: 400px">

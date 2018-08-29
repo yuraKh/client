@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SettingService} from './setting.service';
 import {Service} from './service.model';
 import {AuthenticationService} from '../_services';
-import {CommonService} from "../_services/common.service";
+import {CommonService} from '../_services/common.service';
 
 @Component({
   selector: 'app-setting',
@@ -23,6 +23,7 @@ export class SettingComponent implements OnInit {
   interestRate: number;
 
 
+  pattern = '/^-?[0-9][^\.]*$/';
 
   options = [
     {name: 'Обычный режим', value: 1},
@@ -73,6 +74,7 @@ export class SettingComponent implements OnInit {
   }
 
   setMaxLimit() {
+    this.maxLimit >>= 0;
     this.settingService.setMaxLimit(this.maxLimit).subscribe(
       data => {
         this.onSuccess = true;
@@ -86,6 +88,7 @@ export class SettingComponent implements OnInit {
   }
 
   setMinLimit() {
+    this.minLimit >>= 0;
     this.settingService.setMinLimit(this.minLimit).subscribe(
       data => {
         this.onSuccess = true;
@@ -94,6 +97,7 @@ export class SettingComponent implements OnInit {
   }
 
   setCardLimit() {
+    this.cardLimit >>= 0;
     this.settingService.setCardLimit(this.cardLimit).subscribe(
       data => {
         this.onSuccess = true;
@@ -102,6 +106,7 @@ export class SettingComponent implements OnInit {
   }
 
   saveInterestRate() {
+    this.interestRate = parseFloat(this.interestRate.toFixed(2));
     const o = this.serviceList.find(x => x.name === this.selectedService);
     this.settingService.setInterestRate(o.id, this.interestRate).subscribe(
       data => {
@@ -131,6 +136,10 @@ export class SettingComponent implements OnInit {
     this.settingService.getInterestRate(id).subscribe(data => {
       this.interestRate = data.value;
     });
+  }
+
+  setTwoNumberDecimal($event) {
+    $event.target.value = parseFloat($event.target.value).toFixed(2);
   }
 
   isAuthenticated() {

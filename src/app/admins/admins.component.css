@@ -11,6 +11,9 @@
 }
 
 .admins-wrap {
-  padding-top: 2rem;
-  margin: 0 auto;
+  margin-top: 2rem;
+  margin-left: 3rem;
+}
+.admins-wrap h2 {
+  margin-bottom: 2rem;
 }
