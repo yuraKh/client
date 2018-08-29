@@ -53,12 +53,11 @@
         <p id="userSearch"></p>
         <ul class="filter-select" style="margin-left: 0; padding-left: 0;">
           <li *ngFor="let user of results" style="list-style-type: none" class="filter-select-list">
-            <a (click)="selectUser(user)">
+            <a *ngIf="user !== 'Пользователя не найдено'" (click)="selectUser(user)">
               <p>
-                <span class="artist-name">{{user.fio||user.email||user.phone}}</span>
-              </p>
-
+                <span class="artist-name">{{user.fio||user.email||user.phone}}</span></p>
             </a>
+            <p><span *ngIf="user === 'Пользователя не найдено'" class="artist-name">{{user}}</span></p>
           </li>
         </ul>
       </section>

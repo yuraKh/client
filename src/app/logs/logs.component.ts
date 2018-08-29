@@ -34,7 +34,13 @@ export class LogsComponent implements OnInit {
     this.queryField.valueChanges
       .subscribe( queryField  => {
         if (queryField.length >= 3) {
-          this.userService.searchUser(queryField).subscribe(response => this.results = response);
+          this.userService.searchUser(queryField).subscribe(response => {
+            if (response.length > 0) {
+              this.results = response;
+            } else {
+              this.results[0] = 'Пользователя не найдено';
+            }
+          });
         } else {
           this.init();
         }
